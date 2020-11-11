@@ -18,3 +18,20 @@ export const init = () => {
   });
   return promise;
 }
+
+export const insertDay = ({ dateString, startHour, endHour }) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql('INSERT INTO days (date, startHour, endHour) VALUES (?, ? , ?)',  
+      [dateString, startHour, endHour],
+      (_, result) => {
+        resolve(result);
+      },
+      (_, err) => {
+        reject(err);
+      } 
+      );
+    });
+  });
+  return promise;
+}
