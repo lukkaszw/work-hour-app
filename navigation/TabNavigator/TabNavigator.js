@@ -13,7 +13,8 @@ const TabNavigator = createBottomTabNavigator({
     navigationOptions: {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name='ios-home' size={25} color={tabInfo.tintColor}/>
-      }
+      },
+      tabBarLabel: 'Główna',
     },
   },
   History: {
@@ -21,7 +22,8 @@ const TabNavigator = createBottomTabNavigator({
     navigationOptions: {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name='ios-list-box' size={25} color={tabInfo.tintColor}/>
-      }
+      },
+      tabBarLabel: 'Historia',
     },
   },
 }, {

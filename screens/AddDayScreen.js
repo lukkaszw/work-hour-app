@@ -10,5 +10,9 @@ const AddDayScreen = () => {
     </View>
   );
 }
+
+AddDayScreen.navigationOptions = {
+  headerTitle: 'Dodaj godziny'
+}
  
 export default AddDayScreen;
