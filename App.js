@@ -1,7 +1,7 @@
 import React from 'react';
-
+import { Provider } from 'react-redux';
 import AppNavigation from './navigation';
-
+import store from './store/store';
 import { init } from './db/db';
 
 init()
@@ -14,6 +14,10 @@ init()
 
 export default function App() {
   return (
-    <AppNavigation />
+    <Provider
+      store={store}
+    >
+      <AppNavigation />
+    </Provider>
   );
 }
