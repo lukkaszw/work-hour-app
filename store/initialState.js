@@ -2,12 +2,12 @@ const initialState = {
   days: {
     data: [],
     isLoading: false,
-    isError: false,
+    error: false,
   },
   months: {
     data: [],
     isLoading: false,
-    isError: false,
+    error: false,
   },
   settings: {
     startHour: '7:00',
