@@ -1,41 +1,44 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList } from 'react-native';
+import { ScrollView, Text, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
+import HoursSummary from '../components/HoursSummary';
+import DaysList from '../components/DaysList';
 
 import moment from 'moment';
 
 import { getDays } from '../store/api-requests/api-requests';
-
-const renderDayItem = ({ item }) => (
-  <View>
-    <Text>
-      {`${item.dayNr}.${item.month}`} - {item.dayOfWeek}
-    </Text>
-  </View>
-);
+import MONTHS from '../constants/months';
 
 const MonthScreen = ({ navigation, month, year }) => {
 
   const dispatch = useDispatch();
 
+  const monthNr = navigation.getParam('month', month);
+  const yearNr = navigation.getParam('year', year);
+  const monthStr = monthNr > 9 ? monthNr.toString() : `0${monthNr}`;
+
   const { startDate, endDate, daysInMonth } = useMemo(() => {
-    const startDate = `${year}-${month}-01`;
-    const lastDayOfMonth = moment(`${year}-${month}`, 'YYYY-MM').endOf('month').format('D'); 
-    const endDate = `${year}-${month}-${lastDayOfMonth}`;
+    const startDate = `${yearNr}-${monthStr}-01`;
+    const lastDayOfMonth = moment(`${yearNr}-${monthStr}`, 'YYYY-MM').endOf('month').format('D'); 
+    const endDate = `${yearNr}-${monthStr}-${lastDayOfMonth}`;
 
     return {
       startDate,
       endDate,
       daysInMonth: lastDayOfMonth,
     };
-  }, [year, month]);
+  }, [yearNr, monthStr]);
 
   useEffect(() => {
     dispatch(getDays({ startDate, endDate }));
-  }, [startDate, endDate]);
+    
+    navigation.setParams({
+      monthName: MONTHS[monthNr],
+    });
+  }, [startDate, endDate, monthNr]);
 
   const fetchedDays = useSelector(state => state.days.data);
   const isLoading = useSelector(state => state.isLoading);
@@ -48,7 +51,7 @@ const MonthScreen = ({ navigation, month, year }) => {
       return {
         ...day,
         dayNr: dayNr > 9 ? dayNr.toString() : `0${dayNr}`,
-        month,
+        month: monthStr,
         dayOfWeek: mDate.day() + 1,
       };
     });
@@ -64,8 +67,8 @@ const MonthScreen = ({ navigation, month, year }) => {
         days.push({
           id: null,
           dayNr,
-          month,
-          dayOfWeek: moment(`${year}-${month}-${dayNr}`).day() + 1,
+          month: monthStr,
+          dayOfWeek: moment(`${yearNr}-${monthStr}-${dayNr}`).day() + 1,
         });
       }
     } 
@@ -80,15 +83,16 @@ const MonthScreen = ({ navigation, month, year }) => {
       </View>
     )
   }
- 
+
   return ( 
-    <View>
-      <FlatList 
-        data={generatedDays}
-        keyExtractor={item => item.dayNr.toString()}
-        renderItem={renderDayItem}
+    <ScrollView>
+      <DaysList 
+        days={generatedDays}
       />
-    </View>
+      <HoursSummary 
+        days={generatedDays}
+      />
+    </ScrollView>
   );
 }
 
@@ -98,13 +102,17 @@ MonthScreen.propTypes = {
 };
 
 MonthScreen.defaultProps = {
-  month: moment().month() + 2,
+  month: moment().month() + 1,
   year: moment().year(),
 };
 
 MonthScreen.navigationOptions = (navData) => {
+
+  const monthName = navData.navigation.getParam('monthName', MONTHS[moment().month() + 1]);
+  const year = navData.navigation.getParam('year', moment().year());
+
   return {
-    headerTitle: 'Mesiąc',
+    headerTitle: `${monthName} ${year}`,
     headerLeft: () => {
       return (
         <HeaderButtons HeaderButtonComponent={HeaderBtn}>
