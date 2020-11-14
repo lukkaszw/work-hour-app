@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import AppNavigation from './navigation';
 import store from './store/store';
 import { init } from './db/db';
+import './calendarConfig';
+
 
 init()
   .then(() => {
