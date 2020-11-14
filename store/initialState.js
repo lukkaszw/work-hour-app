@@ -1,6 +1,7 @@
 const initialState = {
   days: {
     data: [],
+    month: '',
     isLoading: false,
     error: false,
   },

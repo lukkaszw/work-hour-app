@@ -1,4 +1,3 @@
-import { Provider } from 'react-redux';
 import actions from '../actions/actions';
 
 const daysReducer = (statePart = {}, action = {}) => {
@@ -13,7 +12,8 @@ const daysReducer = (statePart = {}, action = {}) => {
       return {
         ...statePart,
         isLoading: false,
-        data: action.payload,
+        data: action.payload.days,
+        month: action.payload.month,
       }
     case actions.SET_DAYS_ERROR:
       return {
@@ -25,6 +25,11 @@ const daysReducer = (statePart = {}, action = {}) => {
         return {
           ...statePart,
           error: false,
+        }
+    case actions.ADD_DAY: 
+        return {
+          ...statePart,
+          data: [...statePart.data, action.payload],
         }
     default: 
       return statePart;

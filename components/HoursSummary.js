@@ -14,7 +14,7 @@ const HoursSummary = ({ days }) => {
 
       const dayHourAmount = countDaysHoursAmount(nextItem.startHour, nextItem.endHour);
       return prevValue + dayHourAmount;
-    }, [0]);
+    }, 0);
 
     const fullHours = Math.ceil(hoursAmount);
     const aloneMinutes = Math.ceil((hoursAmount - fullHours) * 60);

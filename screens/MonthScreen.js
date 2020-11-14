@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ScrollView, Text, FlatList } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 import HoursSummary from '../components/HoursSummary';
@@ -33,12 +33,12 @@ const MonthScreen = ({ navigation, month, year }) => {
   }, [yearNr, monthStr]);
 
   useEffect(() => {
-    dispatch(getDays({ startDate, endDate }));
+    dispatch(getDays({ startDate, endDate, month: `${monthStr}.${yearNr}` }));
     
     navigation.setParams({
       monthName: MONTHS[monthNr],
     });
-  }, [startDate, endDate, monthNr]);
+  }, [startDate, endDate, monthNr, monthStr, yearNr]);
 
   const fetchedDays = useSelector(state => state.days.data);
   const isLoading = useSelector(state => state.isLoading);
@@ -52,6 +52,7 @@ const MonthScreen = ({ navigation, month, year }) => {
         ...day,
         dayNr: dayNr > 9 ? dayNr.toString() : `0${dayNr}`,
         month: monthStr,
+        year: yearNr,
         dayOfWeek: mDate.day() + 1,
       };
     });
@@ -68,6 +69,7 @@ const MonthScreen = ({ navigation, month, year }) => {
           id: null,
           dayNr,
           month: monthStr,
+          year: yearNr,
           dayOfWeek: moment(`${yearNr}-${monthStr}-${dayNr}`).day() + 1,
         });
       }
