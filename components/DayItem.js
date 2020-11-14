@@ -22,12 +22,12 @@ const DayItem = ({ id, dayNr, month, dayOfWeek, startHour, endHour }) => {
       </View>
       <View style={styles.hours}>
         <Text style={styles.hourText}>
-          {startHour}
+          {startHour || '-'}
         </Text>
       </View>
       <View style={styles.hours}>
         <Text style={styles.hourText}>
-          {endHour}
+          {endHour || '-'}
         </Text>
       </View>
       <View style={styles.actions}>
@@ -38,7 +38,7 @@ const DayItem = ({ id, dayNr, month, dayOfWeek, startHour, endHour }) => {
 }
 
 DayItem.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.number,
   dayNr: PropTypes.string.isRequired,
   month: PropTypes.string.isRequired,
   dayOfWeek: PropTypes.number.isRequired,

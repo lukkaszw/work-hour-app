@@ -10,7 +10,7 @@ const DaysList = ({ days }) => {
       {
         days.map(( dayItem ) => (
           <DayItem 
-            key={dayItem.dayNr + dayItem.month}
+            key={dayItem.dayNr + dayItem.month + dayItem.year + dayItem.dayOfWeek}
             {...dayItem}
           />
         ))
