@@ -15,6 +15,9 @@ const InputField = ({
   inputStyles,
   ...props
 }) => {
+
+  const errorStyles = error ? styles.error : null;
+
   return ( 
     <View style={styles.field}>
       {
@@ -24,17 +27,11 @@ const InputField = ({
           </Text>
       }
       <TextInput 
-        style={{ ...styles.input, ...inputStyles }}
+        style={{ ...styles.input, ...inputStyles, ...errorStyles }}
         onChangeText={onChangeText}
         value={value}
         {...props}
       />
-      {
-        error && 
-          <Text style={styles.error}>
-            {error}
-          </Text>
-      }
     </View>
   );
 }
@@ -55,9 +52,11 @@ const styles = StyleSheet.create({
     padding: 5,
     borderBottomColor: '#aaa',
     borderBottomWidth: 1,
+    color: 'black',
   },
   error: {
     color: 'red',
+    borderBottomColor: 'red',
   }
 });
  

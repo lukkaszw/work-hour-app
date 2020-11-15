@@ -53,6 +53,7 @@ const AddDayScreen = () => {
             onChangeText={handleChangeStartHour}
             inputStyles={styles.additionalInputStyles}
             keyboardType="number-pad"
+            error={startHourField.error}
           />
         </View>
       <View style={styles.row}>
@@ -64,6 +65,7 @@ const AddDayScreen = () => {
           onChangeText={handleChangeEndHour}
           inputStyles={styles.additionalInputStyles}
           keyboardType="number-pad"
+          error={endHourField.error}
         />
       </View>
 

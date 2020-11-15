@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { addDay, editDayByDate } from '../store/api-requests/api-requests';
 import changeHourInputText from '../utils/changeHourInputText';
+import { validateHourFormat } from '../utils/validators';
 
 import moment from 'moment';
 
@@ -32,17 +33,25 @@ const useDayHourForm = ({
 
   //handlers
   const handleChangeStartHour = useCallback((text) => {
-    setStartHourField(prevObj => ({
-      value: changeHourInputText(text, prevObj.value),
-      error: false,
-    }));
+    setStartHourField(prevObj => {
+      const newValue = changeHourInputText(text, prevObj.value);
+      
+      return {
+        value: newValue,
+        error: !validateHourFormat(newValue),
+      }
+    });
   }, [setStartHourField]);
 
   const handleChangeEndHour = useCallback((text) => {
-    setEndHourField(prevObj => ({
-      value: changeHourInputText(text, prevObj.value),
-      error: false,
-    }));
+    setEndHourField(prevObj => {
+      const newValue = changeHourInputText(text, prevObj.value);
+
+      return {
+        value: newValue,
+        error: !validateHourFormat(newValue),
+      }
+    });
   }, [setEndHourField]);
 
   const handleSetDate = useCallback((dateObj) => {
@@ -60,6 +69,7 @@ const useDayHourForm = ({
         value: prevValue.value,
         error: true,
       }));
+      return;
     }
 
     if(endHourField.value.length === 0) {
@@ -67,6 +77,7 @@ const useDayHourForm = ({
         value: prevValue.value,
         error: true,
       }));
+      return;
     }
 
     setIsSending(true);
