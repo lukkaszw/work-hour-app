@@ -8,6 +8,7 @@ import CalendarModal from '../components/CalendarModal';
 
 import useDayHourForm from '../hooks/useDayHourForm';
 
+import Colors from '../constants/colors';
 
 const AddDayScreen = () => {
 
@@ -39,44 +40,60 @@ const AddDayScreen = () => {
 
   return ( 
     <View style={styles.screen}>
+      <Text style={styles.topText}>
+        Podaj godziny pracy:
+      </Text>
+      <View style={styles.hoursContainer}>
+        <View style={styles.row}>
+          <Text style={styles.hourLabel}>
+            od:
+          </Text>
+          <InputField 
+            value={startHourField.value}
+            onChangeText={handleChangeStartHour}
+            inputStyles={styles.additionalInputStyles}
+            keyboardType="number-pad"
+          />
+        </View>
       <View style={styles.row}>
+        <Text  style={styles.hourLabel}>
+          do:
+        </Text>
         <InputField 
-          value={startHourField.value}
-          onChangeText={handleChangeStartHour}
-          label="Godz. początkowa:"
-          inputStyles={styles.additionalInputStyles}
-        />
-      </View>
-     <View style={styles.row}>
-       <InputField 
           value={endHourField.value}
           onChangeText={handleChangeEndHour}
-          label="Godz. końcowa:"
           inputStyles={styles.additionalInputStyles}
-       />
-     </View>
-      <View style={styles.dateInfo}>
-        <Text>
-          Data: {dateString}
-        </Text>
-        <InlineButton 
-          style={styles.dateChangeBtn}
-          title="Zmień"
-          onPress={handleOpenCalendar}
+          keyboardType="number-pad"
         />
       </View>
-      <View style={styles.btnWrapper}>
-        <Button 
-          title="Dodaj"
-          onPress={handleSendData}
-        />
-      </View>
-      <CalendarModal 
-        date={dateString}
-        onChangeDate={handleSetDate}
-        isOpen={isCalendarVisible}
-        onClose={handleCloseCalendar}
+
+    </View>
+    <Text style={styles.formatInfo}>
+        Proszę podać format: '01:22', '00:22', '23:33'...
+    </Text>
+    <View style={styles.dateInfo}>
+      <Text style={styles.dateText}>
+        Data: {dateString}
+      </Text>
+      <InlineButton 
+        style={styles.dateChangeBtn}
+        title="Zmień"
+        onPress={handleOpenCalendar}
       />
+    </View>
+    <View style={styles.btnWrapper}>
+      <Button 
+        title="Dodaj godziny"
+        onPress={handleSendData}
+        color={Colors.primary}
+      />
+    </View>
+    <CalendarModal 
+      date={dateString}
+      onChangeDate={handleSetDate}
+      isOpen={isCalendarVisible}
+      onClose={handleCloseCalendar}
+    />
     </View>
   );
 }
@@ -91,8 +108,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  topText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },  
+  hoursContainer: {
+    width: 200,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  formatInfo: {
+    fontSize: 12,
+    marginTop: 20,
+    marginBottom: 60,
+  },
   row: {
-    margin: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hourLabel: {
+    fontSize: 18,
+    marginRight: 12,
   },
   additionalInputStyles: {
     width: 55,
@@ -100,14 +136,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   dateChangeBtn: {
-    marginLeft: 10,
+    marginLeft: 20,
   },
   dateInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  dateText: {
+    fontSize: 18,
+  },  
   btnWrapper: {
-    marginTop: 30,
+    marginTop: 60,
   },
 });
  

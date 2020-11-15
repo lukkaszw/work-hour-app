@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { addDay, editDayByDate } from '../store/api-requests/api-requests';
+import changeHourInputText from '../utils/changeHourInputText';
 
 import moment from 'moment';
 
@@ -31,17 +32,17 @@ const useDayHourForm = ({
 
   //handlers
   const handleChangeStartHour = useCallback((text) => {
-    setStartHourField({
-      value: text,
+    setStartHourField(prevObj => ({
+      value: changeHourInputText(text, prevObj.value),
       error: false,
-    });
+    }));
   }, [setStartHourField]);
 
   const handleChangeEndHour = useCallback((text) => {
-    setEndHourField({
-      value: text,
+    setEndHourField(prevObj => ({
+      value: changeHourInputText(text, prevObj.value),
       error: false,
-    });
+    }));
   }, [setEndHourField]);
 
   const handleSetDate = useCallback((dateObj) => {
