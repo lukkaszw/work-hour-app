@@ -1,5 +1,7 @@
 import * as actionCreators from '../actions/actionCreators';
-import { getSpecificDays, insertDay } from '../../db/db';
+import { getSpecificDays, insertDay, updateDayByDate } from '../../db/db';
+
+import getMonthFromDate from '../../utils/getMonthFromDate';
 
 import moment from 'moment';
 
@@ -21,10 +23,7 @@ export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
   return (dispatch) => {  
      return insertDay({ dateString, startHour, endHour })
       .then(result => {
-        const date = moment(dateString);
-        const month = date.month() + 1;
-        const monthStr = month > 9 ? month : `0${month}`;
-        const resultMonthDate = `${monthStr}.${date.year()}`;
+        const resultMonthDate = getMonthFromDate(dateString);
         if(resultMonthDate === currentMonth) {
           dispatch(actionCreators.addDay({
             id: result.insertId,
@@ -35,5 +34,22 @@ export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
         }
         return result;
       });
+  }
+}
+
+export const editDayByDate = ({  startHour, endHour, dateString, currentMonth }) => {
+  return (dispatch) => {
+    return updateDayByDate({ startHour, endHour, dateString })
+      .then(result => {
+        const resultMonthDate = getMonthFromDate(dateString);
+        if(resultMonthDate === currentMonth) {
+          dispatch(actionCreators.editDay({
+            startHour,
+            endHour,
+            dateString,
+          }))
+        }
+        return result;
+      })
   }
 }

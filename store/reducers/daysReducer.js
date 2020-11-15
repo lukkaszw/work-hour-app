@@ -31,6 +31,20 @@ const daysReducer = (statePart = {}, action = {}) => {
           ...statePart,
           data: [...statePart.data, action.payload],
         }
+    case actions.EDIT_DAY:
+        return {
+          ...statePart,
+          data: statePart.data.map(day => {
+            if(day.date === action.payload.dateString) {
+              return {
+                ...day,
+                startHour: action.payload.startHour,
+                endHour: action.payload.endHour,
+              };
+            }
+            return day;
+          }),
+        }
     default: 
       return statePart;
   }

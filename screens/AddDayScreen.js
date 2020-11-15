@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
+import InlineButton from '../components/InlineButton';
 import InputField from '../components/InputField';
 import CalendarModal from '../components/CalendarModal';
 
@@ -54,16 +55,17 @@ const AddDayScreen = () => {
           inputStyles={styles.additionalInputStyles}
        />
      </View>
-      <View>
+      <View style={styles.dateInfo}>
         <Text>
           Data: {dateString}
         </Text>
-        <Button 
+        <InlineButton 
+          style={styles.dateChangeBtn}
           title="Zmień"
           onPress={handleOpenCalendar}
         />
       </View>
-      <View>
+      <View style={styles.btnWrapper}>
         <Button 
           title="Dodaj"
           onPress={handleSendData}
@@ -96,6 +98,16 @@ const styles = StyleSheet.create({
     width: 55,
     textAlign: 'center',
     fontSize: 18,
+  },
+  dateChangeBtn: {
+    marginLeft: 10,
+  },
+  dateInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btnWrapper: {
+    marginTop: 30,
   },
 });
  

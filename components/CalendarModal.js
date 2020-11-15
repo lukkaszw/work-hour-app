@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react';
-import { Modal, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import React from 'react';
+import { Modal, StyleSheet, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+
+import InlineButton from './InlineButton';
 
 
 const CalendarModal = ({
@@ -18,7 +20,6 @@ const CalendarModal = ({
     <Modal
       animationType="slide"
       visible={isOpen}
-      onRequestClose={close}
     >
       <View style={styles.view}>
         <Calendar 
@@ -30,11 +31,10 @@ const CalendarModal = ({
           }}
         />
         <View style={styles.closeBtn}>
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.closeText}>
-              Anuluj
-            </Text>
-          </TouchableOpacity>
+          <InlineButton 
+            onPress={onClose}
+            title="Anuluj"
+          />
         </View>
       </View>
     </Modal>

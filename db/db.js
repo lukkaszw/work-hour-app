@@ -37,6 +37,13 @@ export const updateDay = ({ id, startHour, endHour }) => {
   );
 }
 
+export const updateDayByDate = ({ startHour, endHour, dateString }) => {
+  return createOperation(
+    'UPDATE days SET startHour = ?, endHour = ? WHERE date = ?',
+    [startHour, endHour, dateString],
+  );
+}
+
 export const getAllResults = () => {
   return createOperation(
     'SELECT * FROM days;',  

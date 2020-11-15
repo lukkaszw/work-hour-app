@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
-import { addDay } from '../store/api-requests/api-requests';
+import { addDay, editDayByDate } from '../store/api-requests/api-requests';
 
 import moment from 'moment';
 
@@ -48,6 +48,7 @@ const useDayHourForm = ({
     setDateString(dateObj.dateString);
   }, [setDateString])
 
+  //submit action
   const handleSendData = useCallback(() => {
     if(startHourField.error || endHourField.error) {
       return;
@@ -69,22 +70,54 @@ const useDayHourForm = ({
 
     setIsSending(true);
 
-    dispatch(addDay({ 
+    const data = { 
       startHour: startHourField.value, 
       endHour: endHourField.value, 
       dateString,
       currentMonth,
-    }))
+    };
+
+    dispatch(addDay(data))
       .then(result => {
         setIsSending(false);
+        Alert.alert(
+          'Sukces!',
+          'Dodałeś poprawnie godziny!'
+        );
       })
       .catch(error => {
-        console.log(error);
+        let message = 'Nie udało się zapisać godzin pracy!';
+
+        const alertBtns = [{
+          text: 'Anuluj',
+        }]
+
+        if(error.message.includes('UNIQUE constraint failed')) {
+          message = 'Zapisano już godzine na dany dzień. Czy chcesz edytować?',
+          alertBtns.push({
+            text: 'Edytuj',
+            onPress: () => {
+              setIsSending(true);
+              dispatch(editDayByDate(data))
+                .then(result => {
+                  setIsSending(false);
+                  Alert.alert(
+                    'Sukces!',
+                    'Godziny pracy zakutalizowane poprawnie!',
+                  );
+                })
+                .catch(error => {
+                  console.log(error.message);
+                })
+            },
+          })
+        }
 
         setIsSending(false);
         Alert.alert(
           'Błąd!',
-          'Nie udało się zapisać godzin pracy!',
+          message,
+          alertBtns
         );
       });
 
