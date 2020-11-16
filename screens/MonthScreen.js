@@ -52,7 +52,6 @@ const MonthScreen = ({ navigation, month, year }) => {
         ...day,
         dayNr: dayNr > 9 ? dayNr.toString() : `0${dayNr}`,
         month: monthStr,
-        year: yearNr,
         dayOfWeek: mDate.day() + 1,
       };
     });

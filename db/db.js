@@ -19,14 +19,12 @@ const createOperation = (query, data = []) => {
   });
 }
 
-export const init = () => createOperation(
-  'CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT NOT NULL, endHour TEXT NOT NULL);'
-);
+export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT NOT NULL, endHour TEXT NOT NULL, month INTEGER NOT NULL, year INTEGER NOT NULL);');
 
-export const insertDay = ({ dateString, startHour, endHour }) => {
+export const insertDay = ({ dateString, startHour, endHour, month, year }) => {
   return createOperation(
-    'INSERT INTO days (date, startHour, endHour) VALUES (?, ? , ?);', 
-    [dateString, startHour, endHour],
+    'INSERT INTO days (date, startHour, endHour, month, year) VALUES (?, ? , ?, ?, ?);', 
+    [dateString, startHour, endHour, month, year],
   );
 }
 

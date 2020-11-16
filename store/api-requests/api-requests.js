@@ -19,12 +19,14 @@ export const getDays = ({ startDate, endDate, month }) => {
 }
 
 export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
-
+  const date = moment(dateString);
+  const month = date.month() + 1;
+  const year = date.year();
   return (dispatch) => {  
-     return insertDay({ dateString, startHour, endHour })
+     return insertDay({ dateString, startHour, endHour, month, year })
       .then(result => {
-        const resultMonthDate = getMonthFromDate(dateString);
-        if(resultMonthDate === currentMonth) {
+        const resultMonth = getMonthFromDate(dateString);
+        if(resultMonth === currentMonth) {
           dispatch(actionCreators.addDay({
             id: result.insertId,
             date: dateString,
