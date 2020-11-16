@@ -5,8 +5,8 @@ const initialState = {
     isLoading: false,
     error: false,
   },
-  months: {
-    data: [],
+  history: {
+    years: [],
     isLoading: false,
     error: false,
   },

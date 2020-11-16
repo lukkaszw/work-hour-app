@@ -1,5 +1,5 @@
 import * as actionCreators from '../actions/actionCreators';
-import { getSpecificDays, insertDay, updateDayByDate } from '../../db/db';
+import { getSpecificDays, insertDay, updateDayByDate, getYears } from '../../db/db';
 
 import getMonthFromDate from '../../utils/getMonthFromDate';
 
@@ -53,5 +53,21 @@ export const editDayByDate = ({  startHour, endHour, dateString, currentMonth })
         }
         return result;
       })
+  }
+}
+
+export const fetchYears = () => {
+  return (dispatch) => {
+    dispatch(actionCreators.startYearsLoading());
+    return getYears()
+      .then(result => {
+        dispatch(actionCreators.setYears({ years: result.rows._array }));
+        return result;
+      })
+      .catch((error) => {
+        console.log(error);
+
+        dispatch(actionCreators.setYearsError('Błąd! Nie udało się pobrać historii!'));
+      });
   }
 }

@@ -48,6 +48,19 @@ export const getAllResults = () => {
   );
 }
 
+export const getYears = () => {
+  return createOperation(
+    'SELECT DISTINCT year FROM days',
+  );
+}
+
+export const getMonths = (year) => {
+  return createOperation(
+    'SELECT DISTINCT month FROM days WHERE year = ?',
+    [year],
+  );
+}
+
 export const getSpecificDays = ({ startDate, endDate }) => {
   return createOperation(
     'SELECT * FROM days WHERE date BETWEEN ? and ?',

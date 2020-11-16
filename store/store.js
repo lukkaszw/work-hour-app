@@ -5,12 +5,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import initialState from './initialState';
 
 import daysReducer from './reducers/daysReducer';
-import monthsReducer from './reducers/monthsReducer';
+import historyReducer from './reducers/historyReducer';
 import settingsReducer from './reducers/settingsReducer';
 
 const rootReducer = combineReducers({
   days: daysReducer,
-  months: monthsReducer,
+  history: historyReducer,
   settings: settingsReducer,
 });
 
