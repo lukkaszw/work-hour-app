@@ -39,6 +39,7 @@ const HistoryScreen = ({ navigation }) => {
       <MonthsModal 
         year={chosenYear}
         onClose={onCloseModal}
+        navigation={navigation}
       />
     </ScrollView>
   );

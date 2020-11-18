@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Modal, ScrollView, View, Text, Button } from 'react-native';
+import { Modal, ScrollView, StyleSheet, View, Button } from 'react-native';
+import MonthLinkItem from './MonthLinkItem';
+import InlineButton from './InlineButton';
 
 import { getMonths } from '../db/db';
+import MONTHS from '../constants/months';
  
-const MonthsModal = ({ year, onClose }) => {
+const MonthsModal = ({ year, onClose, navigation }) => {
 
   const [isLoading, setIsLoading] = useState([]);
   const [months, setMonths] = useState([]);
@@ -34,19 +37,25 @@ const MonthsModal = ({ year, onClose }) => {
       <ScrollView>
         <View> 
           {
-            months.map(month => (
-              <Text key={month.month}>
-                {month.month}
-              </Text>
+            months.map(monthItem => (
+              <MonthLinkItem 
+                key={monthItem.month}
+                monthName={MONTHS[monthItem.month]}
+                monthNr={monthItem.month}
+                year={year}
+                navigation={navigation}
+                onClose={onClose}
+              />
             ))
           } 
-
         </View>
-        <Button 
-          title="Cofnij"
-          color="red"
-          onPress={onClose}
-        />
+        <View style={styles.btnWrapper}>
+          <InlineButton 
+            title="Cofnij"
+            color="red"
+            onPress={onClose}
+          /> 
+        </View>
       </ScrollView>
     </Modal>
   );
@@ -56,5 +65,12 @@ MonthsModal.propTypes = {
   year: PropTypes.number,
   onClose: PropTypes.func.isRequired,
 };
+
+const styles = StyleSheet.create({
+  btnWrapper: {
+    marginTop: 30,
+    alignItems: 'center',
+  }
+});
  
 export default MonthsModal;

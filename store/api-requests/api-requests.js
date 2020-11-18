@@ -61,7 +61,7 @@ export const fetchYears = () => {
     dispatch(actionCreators.startYearsLoading());
     return getYears()
       .then(result => {
-        dispatch(actionCreators.setYears({ years: result.rows._array }));
+        dispatch(actionCreators.setYears({ years: result.rows._array.sort((a, b) => a.month > b.month) }));
         return result;
       })
       .catch((error) => {
