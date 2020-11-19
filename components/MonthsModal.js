@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Modal, ScrollView, StyleSheet, View, Button } from 'react-native';
 import MonthLinkItem from './MonthLinkItem';
 import InlineButton from './InlineButton';
+import Loader from '../components/Loader';
 
 import { getMonths } from '../db/db';
 import MONTHS from '../constants/months';
@@ -35,27 +36,34 @@ const MonthsModal = ({ year, onClose, navigation }) => {
       visible={!!year}
     >
       <ScrollView>
-        <View> 
-          {
-            months.map(monthItem => (
-              <MonthLinkItem 
-                key={monthItem.month}
-                monthName={MONTHS[monthItem.month]}
-                monthNr={monthItem.month}
-                year={year}
-                navigation={navigation}
-                onClose={onClose}
-              />
-            ))
-          } 
-        </View>
-        <View style={styles.btnWrapper}>
-          <InlineButton 
-            title="Cofnij"
-            color="red"
-            onPress={onClose}
-          /> 
-        </View>
+        {
+          isLoading ?
+          <Loader />
+          :
+          <>
+            <View> 
+              {
+                months.map(monthItem => (
+                  <MonthLinkItem 
+                    key={monthItem.month}
+                    monthName={MONTHS[monthItem.month]}
+                    monthNr={monthItem.month}
+                    year={year}
+                    navigation={navigation}
+                    onClose={onClose}
+                  />
+                ))
+              } 
+            </View>
+            <View style={styles.btnWrapper}>
+              <InlineButton 
+                title="Cofnij"
+                color="red"
+                onPress={onClose}
+              /> 
+            </View>
+          </>
+        }
       </ScrollView>
     </Modal>
   );

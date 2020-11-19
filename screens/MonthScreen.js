@@ -7,6 +7,8 @@ import HeaderBtn from '../components/HeaderButton';
 import HoursSummary from '../components/HoursSummary';
 import DaysList from '../components/DaysList';
 
+import Loader from '../components/Loader';
+
 import moment from 'moment';
 
 import { getDays } from '../store/api-requests/api-requests';
@@ -41,7 +43,7 @@ const MonthScreen = ({ navigation, month, year }) => {
   }, [startDate, endDate, monthNr, monthStr, yearNr]);
 
   const fetchedDays = useSelector(state => state.days.data);
-  const isLoading = useSelector(state => state.isLoading);
+  const isLoading = useSelector(state => state.days.isLoading);
 
   const generatedDays = useMemo(() => {
     const modifiedDays = fetchedDays.map(day => {
@@ -77,11 +79,11 @@ const MonthScreen = ({ navigation, month, year }) => {
     return [...days];
   }, [fetchedDays, daysInMonth]);
 
-  if(isLoading || !generatedDays) {
+  console.log(isLoading);
+
+  if(isLoading) {
     return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <Loader />
     )
   }
 

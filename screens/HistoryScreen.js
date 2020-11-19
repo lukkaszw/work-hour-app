@@ -6,6 +6,7 @@ import HeaderBtn from '../components/HeaderButton';
 import MonthsModal from '../components/MonthsModal';
 
 import YearItem from '../components/YearItem';
+import Loader from '../components/Loader';
 
 import { fetchYears } from '../store/api-requests/api-requests';
 
@@ -18,11 +19,16 @@ const HistoryScreen = ({ navigation }) => {
   }, []);
 
   const years = useSelector(state => state.history.years);
+  const isLoading = useSelector(state => state.history.isLoading);
 
   const [chosenYear, setChosenYear] = useState(null);
 
   const onCloseModal = useCallback(() => setChosenYear(null), [setChosenYear]);
   const onOpenModal = useCallback((year) => setChosenYear(year), [setChosenYear]);
+
+  if(isLoading) {
+    <Loader />
+  }
 
 
   return ( 
