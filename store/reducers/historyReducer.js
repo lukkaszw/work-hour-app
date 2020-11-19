@@ -24,6 +24,16 @@ const historyReducer = (statePart = {}, action = {}) => {
         ...statePart,
         error: false,
       }
+    case actions.ADD_YEAR: 
+      let shouldUpdate = false;
+      if(!statePart.years.find((yearItem) => yearItem.year === action.payload.year)) {
+        shouldUpdate = true;
+      }
+
+      return {
+        ...statePart,
+        years: shouldUpdate ? [...statePart.years, action.payload].sort((a, b) => a.year > b.year) : statePart.years,
+      }
     default: 
       return statePart;
   }

@@ -11,3 +11,4 @@ export const startYearsLoading = () => ({ type: ACTIONS.START_YEARS_LOADING });
 export const setYears = ({ years }) => ({ payload: years, type: ACTIONS.SET_YEARS });
 export const setYearsError = () => ({ type: ACTIONS.SET_YEARS_ERROR });
 export const resetYearsError = () => ({ type: ACTIONS.RESET_DAYS_ERROR });
+export const addYear = ({year}) => ({ payload: { year }, type: ACTIONS.ADD_YEAR });

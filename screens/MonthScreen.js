@@ -79,8 +79,6 @@ const MonthScreen = ({ navigation, month, year }) => {
     return [...days];
   }, [fetchedDays, daysInMonth]);
 
-  console.log(isLoading);
-
   if(isLoading) {
     return (
       <Loader />
