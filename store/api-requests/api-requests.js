@@ -69,8 +69,6 @@ export const fetchYears = () => {
         return result;
       })
       .catch((error) => {
-        console.log(error);
-
         dispatch(actionCreators.setYearsError('Błąd! Nie udało się pobrać historii!'));
       });
   }
