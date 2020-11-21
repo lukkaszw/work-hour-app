@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { addDay, editDayByDate } from '../store/api-requests/api-requests';
 import changeHourInputText from '../utils/changeHourInputText';
 import { validateHourFormat } from '../utils/validators';
+import useHoursSettings from './useHoursSettings';
 
 import moment from 'moment';
 
@@ -15,44 +16,21 @@ const useDayHourForm = ({
 
   const dispatch = useDispatch();
 
-  //fields
-  const [startHourField, setStartHourField] = useState({
-    value: initialValues ? initialValues.startHour : '',
-    error: false,
-  });
-
-  const [endHourField, setEndHourField] = useState({
-    value: initialValues ? initialValues.endHour : '',
-    error: false,
+  const {
+    startHourField,
+    endHourField,
+    handleChangeEndHour,
+    handleChangeStartHour,
+    setStartHourField,
+    setEndHourField,
+  } = useHoursSettings({
+    initialValues,
   });
 
   const [dateString, setDateString] = useState(initialValues ? initialValues.dateString : moment().format('YYYY-MM-DD'));
 
   //sendingStatus
   const [isSending, setIsSending] = useState(false);
-
-  //handlers
-  const handleChangeStartHour = useCallback((text) => {
-    setStartHourField(prevObj => {
-      const newValue = changeHourInputText(text, prevObj.value);
-      
-      return {
-        value: newValue,
-        error: !validateHourFormat(newValue),
-      }
-    });
-  }, [setStartHourField]);
-
-  const handleChangeEndHour = useCallback((text) => {
-    setEndHourField(prevObj => {
-      const newValue = changeHourInputText(text, prevObj.value);
-
-      return {
-        value: newValue,
-        error: !validateHourFormat(newValue),
-      }
-    });
-  }, [setEndHourField]);
 
   const handleSetDate = useCallback((dateObj) => {
     setDateString(dateObj.dateString);

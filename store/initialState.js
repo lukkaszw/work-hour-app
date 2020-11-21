@@ -11,13 +11,13 @@ const initialState = {
     error: false,
   },
   settings: {
-    startHour: '7:00',
+    startHour: '07:00',
     endHour: '15:00',
     workOnSaturday: false,
-    startOnSaturday: '7:00',
+    startOnSaturday: '07:00',
     endOnSaturday: '15:00',
     workOnSunday: false,
-    startOnSunday: '7:00',
+    startOnSunday: '07:00',
     endOnSunday: '15:00',
   }
 };
