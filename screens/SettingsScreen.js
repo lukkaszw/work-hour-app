@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, Text, Switch, StyleSheet } from 'react-native';
+import { Button, View, Text, Switch, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 import HourSettings from '../components/HourSettings';
 
 import useSettings from '../hooks/useSettings';
 import DivideLine from '../components/DivideLine';
+import InlineButton from '../components/InlineButton';
 
-const SettingsScreen = () => {
+import Colors from '../constants/colors';
+
+const SettingsScreen = ({ navigation }) => {
 
   const initialValues = useSelector(state => state.settings);
 
-  const {
+  const handleNavigateToMonthScreen = useCallback(() => {
+    navigation.navigate('Month');
+  }, [navigation]);
+
+   const {
     startHourField,
     endHourField,
     handleChangeEndHour,
@@ -29,6 +36,7 @@ const SettingsScreen = () => {
     workOnSunday,
     toggleWorkOnSaturday,
     toggleWorkOnSunday,
+    handleSaveSettings,
   } = useSettings({ initialValues });
 
   return ( 
@@ -94,6 +102,22 @@ const SettingsScreen = () => {
             />
         }
       </View> 
+      <DivideLine />
+      <View style={styles.buttons}>
+        <View style={styles.button}>
+          <InlineButton 
+            title='Anuluj'
+            onPress={handleNavigateToMonthScreen}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button 
+            title='Zapisz'
+            color={Colors.primary}
+            onPress={handleSaveSettings}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -144,6 +168,15 @@ const styles = StyleSheet.create({
   centeredContent: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttons: {
+    paddingVertical: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    marginHorizontal: 20,
   }
 })
  

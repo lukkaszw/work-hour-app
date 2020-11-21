@@ -11,6 +11,8 @@ const SET_YEARS_ERROR = 'SET_YEARS_ERROR';
 const RESET_YEARS_ERROR = 'RESET_YEARS_ERROR';
 const ADD_YEAR = 'ADD_YEAR';
 
+const SET_SETTINGS = 'SET_SETTINGS';
+
 export default {
   SET_DAYS,
   START_DAYS_LOADING,
@@ -23,4 +25,5 @@ export default {
   SET_YEARS_ERROR,
   RESET_YEARS_ERROR,
   ADD_YEAR,
+  SET_SETTINGS,
 };

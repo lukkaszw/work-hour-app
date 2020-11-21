@@ -1,8 +1,13 @@
 import { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { Alert } from 'react-native';
 
 import useHoursSettings from './useHoursSettings';
+import { setSettings } from '../store/actions/actionCreators';
 
-const useSettings = ({ initialValues }) => {
+const useSettings = ({ initialValues, navigateToHomeScreen }) => {
+
+  const dispatch = useDispatch();
 
   const [workOnSaturday, setWorkOnSaturday] = useState(initialValues.workOnSaturday);
   const [workOnSunday, setWorkOnSunday] = useState(initialValues.workOnSunday);
@@ -51,6 +56,46 @@ const useSettings = ({ initialValues }) => {
     }
   });
 
+  const handleSaveSettings = useCallback(() => {
+    if(startHourField.error || endHourField.error) {
+      return;
+    }
+
+    if(workOnSaturday) {
+      if(startOnSaturdayField.error || endOnSaturdayField.error) {
+        return;
+      }
+    }
+
+    if(workOnSunday) {
+      if(startOnSundayField.error || endOnSundayField.error) {
+        return;
+      }
+    }
+
+    const settings = {
+      startHour: startHourField.value,
+      endHour: endHourField.value,
+      workOnSaturday,
+      workOnSunday,
+      startOnSaturday: startOnSaturdayField.value,
+      endOnSaturday: endOnSaturdayField.value,
+      startOnSunday: startOnSundayField.value,
+      endOnSunday: endOnSaturdayField.value,
+    };
+
+    dispatch(setSettings(settings));
+
+    Alert.alert('Ustawienia zapisano poprawnie!', 'Zapisano twoje nowe ustawienia aplikacji. Miłego korzystania!');
+
+  }, [
+      workOnSunday, workOnSaturday, 
+      startHourField, endHourField,
+      startOnSundayField, endOnSaturdayField, 
+      startOnSaturdayField, endOnSundayField,
+    ],
+  );
+
   return {
     startHourField,
     endHourField,
@@ -68,6 +113,7 @@ const useSettings = ({ initialValues }) => {
     workOnSunday,
     toggleWorkOnSaturday,
     toggleWorkOnSunday,
+    handleSaveSettings,
   };
 }
 
