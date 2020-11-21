@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import moment from 'moment';
 
 import InlineButton from '../components/InlineButton';
 import CalendarModal from '../components/CalendarModal';
@@ -9,10 +10,12 @@ import HourSettings from '../components/HourSettings';
 import useDayHourForm from '../hooks/useDayHourForm';
 
 import Colors from '../constants/colors';
+import Days from '../constants/days';
 
 const AddDayScreen = () => {
 
   const currentMonth = useSelector(state => state.days.month);
+  const settings = useSelector(state => state.settings);
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
@@ -23,6 +26,29 @@ const AddDayScreen = () => {
   const handleCloseCalendar = useCallback(() => {
     setIsCalendarVisible(false);
   }, [setIsCalendarVisible]);
+
+  const todayDayOfWeek = moment().weekday() + 1;
+
+  const todayInitialValues = useMemo(() => {
+
+    const values = {
+      startHour: '',
+      endHour: '',
+    }
+
+    if(todayDayOfWeek === 1 && settings.workOnSunday) {
+      values.startHour = settings.startOnSunday;
+      values.endHour = settings.endOnSunday;
+    } else if (todayDayOfWeek === 7 && settings.workOnSaturday) {
+      values.startHour = settings.startOnSaturday;
+      values.endHour = settings.endOnSaturday;
+    } else if (todayDayOfWeek > 1 && todayDayOfWeek < 7) {
+      values.startHour = settings.startHour;
+      values.endHour = settings.endHour;
+    }
+
+    return values;
+  }, [todayDayOfWeek, settings]);
 
   const {
     startHourField,
@@ -35,6 +61,10 @@ const AddDayScreen = () => {
     isSending,
   } = useDayHourForm({
     currentMonth,
+    initialValues: {
+      startHour: todayInitialValues.startHour,
+      endHour: todayInitialValues.endHour,
+    }
   });
 
 

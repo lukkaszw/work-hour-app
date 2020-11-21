@@ -27,7 +27,7 @@ const useDayHourForm = ({
     initialValues,
   });
 
-  const [dateString, setDateString] = useState(initialValues ? initialValues.dateString : moment().format('YYYY-MM-DD'));
+  const [dateString, setDateString] = useState(initialValues && initialValues.dateString ? initialValues.dateString : moment().format('YYYY-MM-DD'));
 
   //sendingStatus
   const [isSending, setIsSending] = useState(false);
