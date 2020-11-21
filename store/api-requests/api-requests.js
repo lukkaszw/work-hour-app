@@ -1,6 +1,6 @@
 import * as actionCreators from '../actions/actionCreators';
 import { getSpecificDays, insertDay, updateDayByDate, getYears } from '../../db/db';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import getMonthFromDate from '../../utils/getMonthFromDate';
 
 import moment from 'moment';
@@ -73,5 +73,14 @@ export const fetchYears = () => {
 
         dispatch(actionCreators.setYearsError('Błąd! Nie udało się pobrać historii!'));
       });
+  }
+}
+
+export const getInitialSettings = () => {
+  return async dispatch => {
+    const settings = await AsyncStorage.getItem('settings');
+    if(settings !== null) {
+      dispatch(actionCreators.setSettings(JSON.parse(settings)));
+    }
   }
 }

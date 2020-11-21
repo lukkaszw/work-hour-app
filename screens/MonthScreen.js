@@ -11,7 +11,7 @@ import Loader from '../components/Loader';
 
 import moment from 'moment';
 
-import { getDays } from '../store/api-requests/api-requests';
+import { getDays, getInitialSettings } from '../store/api-requests/api-requests';
 import MONTHS from '../constants/months';
 
 const MonthScreen = ({ navigation, month, year }) => {
@@ -33,6 +33,10 @@ const MonthScreen = ({ navigation, month, year }) => {
       daysInMonth: lastDayOfMonth,
     };
   }, [yearNr, monthStr]);
+
+  useEffect(() => {
+    dispatch(getInitialSettings());
+  }, []);
 
   useEffect(() => {
     dispatch(getDays({ startDate, endDate, month: `${monthStr}.${yearNr}` }));

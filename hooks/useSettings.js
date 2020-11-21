@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import useHoursSettings from './useHoursSettings';
 import { setSettings } from '../store/actions/actionCreators';
@@ -85,6 +86,8 @@ const useSettings = ({ initialValues, navigateToHomeScreen }) => {
     };
 
     dispatch(setSettings(settings));
+
+    AsyncStorage.setItem('settings', JSON.stringify(settings));
 
     Alert.alert('Ustawienia zapisano poprawnie!', 'Zapisano twoje nowe ustawienia aplikacji. Miłego korzystania!');
 
