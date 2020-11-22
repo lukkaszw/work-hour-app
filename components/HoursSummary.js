@@ -6,31 +6,51 @@ import { countDaysHoursAmount } from '../utils/generateHoursAmount';
 
 const HoursSummary = ({ days }) => {
 
-  const totalHours = useMemo(() => {
-    const hoursAmount = days.reduce((prevValue, nextItem) => {
-      if(!nextItem.startHour) {
-        return prevValue + 0;
+  const { totalHoursString, leaveDays } = useMemo(() => {
+    const { hoursAmount, leaveDays } = days.reduce((prevValue, nextItem) => {
+      let hoursAmount = prevValue.hoursAmount;
+      let leaveDays = prevValue.leaveDays;
+
+      if(nextItem.isLeave) {
+        leaveDays += 1;
+      } else if (nextItem.startHour) {
+        hoursAmount += countDaysHoursAmount(nextItem.startHour, nextItem.endHour);
       }
 
-      const dayHourAmount = countDaysHoursAmount(nextItem.startHour, nextItem.endHour);
-      return prevValue + dayHourAmount;
-    }, 0);
+      return {
+        hoursAmount,
+        leaveDays,
+      }
+    },{ hoursAmount: 0, leaveDays: 0});
 
     const fullHours = Math.ceil(hoursAmount);
     const aloneMinutes = Math.ceil((hoursAmount - fullHours) * 60);
 
     const totalHoursString = `${fullHours} godz., ${aloneMinutes} min.`;
-    return totalHoursString;
+    return {
+      totalHoursString,
+      leaveDays,
+    };
   }, [days]);
 
   return ( 
     <View style={styles.container}>
-      <Text>
-        Liczba godzin: 
-      </Text>
-      <Text>
-        {totalHours}
-      </Text>
+      <View style={styles.data}>
+        <Text>
+          Liczba godzin: 
+        </Text>
+        <Text>
+          {totalHoursString}
+        </Text>
+      </View>
+      <View style={styles.data}>
+        <Text>
+          Dni urlopu: 
+        </Text>
+        <Text>
+          {leaveDays}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -41,10 +61,14 @@ HoursSummary.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    padding: 20,
-    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
+  data: { 
+    paddingVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
  
 export default HoursSummary;
