@@ -19,26 +19,26 @@ const createOperation = (query, data = []) => {
   });
 }
 
-export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT NOT NULL, endHour TEXT NOT NULL, month INTEGER NOT NULL, year INTEGER NOT NULL);');
+export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT, endHour TEXT, isLeave INTEGER, month INTEGER NOT NULL, year INTEGER NOT NULL);');
 
-export const insertDay = ({ dateString, startHour, endHour, month, year }) => {
+export const insertDay = ({ dateString, startHour, endHour, isLeave, month, year }) => {
   return createOperation(
-    'INSERT INTO days (date, startHour, endHour, month, year) VALUES (?, ? , ?, ?, ?);', 
-    [dateString, startHour, endHour, month, year],
+    'INSERT INTO days (date, startHour, endHour, isLeave, month, year) VALUES (?, ? , ?, ?, ?, ?);', 
+    [dateString, startHour, endHour, isLeave, month, year],
   );
 }
 
-export const updateDay = ({ id, startHour, endHour }) => {
+export const updateDay = ({ id, startHour, endHour, isLeave }) => {
   return createOperation(
-    'UPDATE days SET startHour = ?, endHour = ? WHERE id = ?', 
-    [startHour, endHour, id],
+    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ? WHERE id = ?', 
+    [startHour, endHour, isLeave, id],
   );
 }
 
-export const updateDayByDate = ({ startHour, endHour, dateString }) => {
+export const updateDayByDate = ({ startHour, endHour, isLeave, dateString }) => {
   return createOperation(
-    'UPDATE days SET startHour = ?, endHour = ? WHERE date = ?',
-    [startHour, endHour, dateString],
+    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ? WHERE date = ?',
+    [startHour, endHour, isLeave, dateString],
   );
 }
 

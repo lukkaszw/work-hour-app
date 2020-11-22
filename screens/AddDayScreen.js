@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Switch } from 'react-native';
 import moment from 'moment';
 
 import InlineButton from '../components/InlineButton';
@@ -10,7 +10,6 @@ import HourSettings from '../components/HourSettings';
 import useDayHourForm from '../hooks/useDayHourForm';
 
 import Colors from '../constants/colors';
-import Days from '../constants/days';
 
 const AddDayScreen = () => {
 
@@ -58,7 +57,8 @@ const AddDayScreen = () => {
     handleSetDate,
     handleSendData,
     dateString,
-    isSending,
+    isLeave,
+    handleToggleLeave,
   } = useDayHourForm({
     currentMonth,
     initialValues: {
@@ -70,18 +70,30 @@ const AddDayScreen = () => {
 
   return ( 
     <View style={styles.screen}>
-      <HourSettings 
-        headerText='Podaj godziny pracy:'
-        fromValue={startHourField.value}
-        onFromChangeHandler={handleChangeStartHour}
-        fromError={startHourField.error}
-        toValue={endHourField.value}
-        onToChangeHandler={handleChangeEndHour}
-        toError={endHourField.error}
-        addInfo
-      />
+      <View style={styles.leaveStatus}>
+        <Text style={{ ...styles.text, ...styles.leaveText}}>
+          Urlop wypoczynkowy
+        </Text>
+        <Switch 
+          onValueChange={handleToggleLeave}
+          value={isLeave}
+        />
+      </View>
+      {
+        !isLeave &&
+          <HourSettings 
+            headerText='Podaj godziny pracy:'
+            fromValue={startHourField.value}
+            onFromChangeHandler={handleChangeStartHour}
+            fromError={startHourField.error}
+            toValue={endHourField.value}
+            onToChangeHandler={handleChangeEndHour}
+            toError={endHourField.error}
+            addInfo
+          />
+      }
       <View style={styles.dateInfo}>
-        <Text style={styles.dateText}>
+        <Text style={styles.text}>
           Data: {dateString}
         </Text>
         <InlineButton 
@@ -117,6 +129,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  leaveStatus: {
+    flexDirection: 'row',
+    marginBottom: 30,
+    alignItems: 'center',
+  },  
   dateChangeBtn: {
     marginLeft: 20,
   },
@@ -125,8 +142,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  dateText: {
+  text: {
     fontSize: 18,
+  },
+  leaveText: {
+    marginRight: 10,
   },  
   btnWrapper: {
     marginTop: 60,

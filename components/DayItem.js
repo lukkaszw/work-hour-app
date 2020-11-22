@@ -12,8 +12,9 @@ import Colors from '../constants/colors';
 import useDayHourForm from '../hooks/useDayHourForm';
 import useFastAdd from '../hooks/useFastAdd';
 import useRemoveDaysHours from '../hooks/useRemoveDaysHours';
+import useSetDayAsLeave from '../hooks/useSetDayAsLeave';
 
-const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
+const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHour }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const settings = useSelector(state => state.settings);
@@ -78,8 +79,18 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
     handleRemoveDaysHours,
   } = useRemoveDaysHours(id);
 
+  const {
+    isSettingLeave,
+    handleSetLeave,
+  } = useSetDayAsLeave({
+    id,
+    isAlreadyLeave: !!isLeave,
+    dateString: initialValues.dateString,
+    currentMonth: `${month}.${year}`,
+  })
 
-  const isLoading = isSending || isSendingFast || isRemoving;
+
+  const isLoading = isSending || isSendingFast || isRemoving || isSettingLeave;
 
   return ( 
     <View style={styles.item}>
@@ -103,7 +114,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
             />
             :
             <Text style={styles.hourText}>
-              {startHour || '-'}
+              {isLeave ? 'UW' : startHour || '-'}
             </Text>
         }
       </View>
@@ -117,7 +128,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
             />
             :
             <Text style={styles.hourText}>
-              {endHour || '-'}
+              {isLeave ? 'UW' : endHour || '-'}
             </Text>
         }
     
@@ -161,9 +172,9 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
                     !id ?
                       <View style={styles.icon}>
                         <IconButton 
-                          iconName='ios-color-wand'
+                          iconName='ios-flash'
                           onPress={handleFastAdd}
-                          color={areInitialExists ? 'dodgerblue' : 'gray'}
+                          color={areInitialExists ? 'orange' : 'gray'}
                         />
                       </View>
                       :
@@ -175,6 +186,13 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
                         />
                       </View>
                   }
+                  <View style={styles.icon}>
+                    <IconButton 
+                      iconName='ios-bed'
+                      onPress={handleSetLeave}
+                      color='dodgerblue'
+                    />
+                  </View>
               </>
             )
         }
@@ -187,6 +205,7 @@ DayItem.propTypes = {
   id: PropTypes.number,
   dayNr: PropTypes.string.isRequired,
   month: PropTypes.string.isRequired,
+  isLeave: PropTypes.number,
   year: PropTypes.number.isRequired,
   dayOfWeek: PropTypes.number.isRequired,
   startHour: PropTypes.string,
@@ -228,9 +247,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 6,
   },
   icon: {
-    marginHorizontal: 6,
+    marginHorizontal: 3,
   }
 });
  

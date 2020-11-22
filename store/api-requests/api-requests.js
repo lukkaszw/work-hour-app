@@ -18,18 +18,19 @@ export const getDays = ({ startDate, endDate, month }) => {
   }
 }
 
-export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
+export const addDay = ({ startHour, endHour, dateString, isLeave, currentMonth }) => {
   const date = moment(dateString);
   const month = date.month() + 1;
   const year = date.year();
   return (dispatch) => {  
-     return insertDay({ dateString, startHour, endHour, month, year })
+     return insertDay({ dateString, startHour, endHour, isLeave, month, year })
       .then(result => {
         const resultMonth = getMonthFromDate(dateString);
         if(resultMonth === currentMonth) {
           dispatch(actionCreators.addDay({
             id: result.insertId,
             date: dateString,
+            isLeave,
             startHour,
             endHour,
             year,
@@ -42,15 +43,16 @@ export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
   }
 }
 
-export const editDayByDate = ({  startHour, endHour, dateString, currentMonth }) => {
+export const editDayByDate = ({  startHour, endHour, isLeave, dateString, currentMonth }) => {
   return (dispatch) => {
-    return updateDayByDate({ startHour, endHour, dateString })
+    return updateDayByDate({ startHour, endHour, isLeave, dateString })
       .then(result => {
         const resultMonthDate = getMonthFromDate(dateString);
         if(resultMonthDate === currentMonth) {
           dispatch(actionCreators.editDay({
             startHour,
             endHour,
+            isLeave,
             dateString,
           }))
         }

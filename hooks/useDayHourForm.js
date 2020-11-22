@@ -31,42 +31,52 @@ const useDayHourForm = ({
 
   const [dateString, setDateString] = useState(initialValues && initialValues.dateString ? initialValues.dateString : moment().format('YYYY-MM-DD'));
 
+  const [isLeave, setIsLeave] = useState(false);
+
+  //handlers
+  const handleToggleLeave = useCallback(() => setIsLeave(prevValue => !prevValue) ,[setIsLeave]);
+
   //sendingStatus
   const [isSending, setIsSending] = useState(false);
 
   const handleSetDate = useCallback((dateObj) => {
     setDateString(dateObj.dateString);
-  }, [setDateString])
+  }, [setDateString]);
 
   //submit action
   const handleSendData = useCallback(() => {
-    if(startHourField.error || endHourField.error) {
-      return;
+    if(!isLeave) {
+      if(startHourField.error || endHourField.error) {
+        return;
+      }
+  
+      if(startHourField.value.length === 0) {
+        setStartHourField(prevValue => ({
+          value: prevValue.value,
+          error: true,
+        }));
+        return;
+      }
+  
+      if(endHourField.value.length === 0) {
+        setEndHourField(prevValue => ({
+          value: prevValue.value,
+          error: true,
+        }));
+        return;
+      }  
     }
 
-    if(startHourField.value.length === 0) {
-      setStartHourField(prevValue => ({
-        value: prevValue.value,
-        error: true,
-      }));
-      return;
-    }
-
-    if(endHourField.value.length === 0) {
-      setEndHourField(prevValue => ({
-        value: prevValue.value,
-        error: true,
-      }));
-      return;
-    }
+    console.log('isWOrking next');
 
     setIsSending(true);
 
     const data = { 
-      startHour: startHourField.value, 
-      endHour: endHourField.value, 
+      startHour: isLeave ? '' : startHourField.value, 
+      endHour: isLeave ? '' : endHourField.value, 
       dateString,
       currentMonth,
+      isLeave: isLeave ? 1 : 0,
     };
 
     if(isForEdit) {
@@ -101,6 +111,8 @@ const useDayHourForm = ({
         }
       })
       .catch(error => {
+        console.log(error);
+
         let message = 'Nie udało się zapisać godzin pracy!';
 
         const alertBtns = [{
@@ -122,6 +134,8 @@ const useDayHourForm = ({
                   );
                 })
                 .catch(error => {
+                  console.log(error);
+
                   Alert.alert(
                     'Błąd!',
                     'Nie udało się zaktualizować poprawnie godzin pracy!',
@@ -153,6 +167,8 @@ const useDayHourForm = ({
     dateString,
     handleSetDate,
     handleSendData,
+    handleToggleLeave,
+    isLeave,
   }
 }
 

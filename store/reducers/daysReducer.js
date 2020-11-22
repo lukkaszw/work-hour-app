@@ -40,6 +40,7 @@ const daysReducer = (statePart = {}, action = {}) => {
                 ...day,
                 startHour: action.payload.startHour,
                 endHour: action.payload.endHour,
+                isLeave: action.payload.isLeave,
               };
             }
             return day;

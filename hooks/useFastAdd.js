@@ -22,7 +22,7 @@ const useFastAdd = ({ initialValues, currentMonth }) => {
       startHour: initialValues.startHour, 
       endHour: initialValues.endHour, 
       dateString: initialValues.dateString,
-      currentMonth: currentMonth,
+      currentMonth,
     };
 
     setIsSendingFast(true);
