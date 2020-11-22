@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   additionalInputStyles: {
-    width: 55,
+    width: 60,
     textAlign: 'center',
     fontSize: 18,
   },

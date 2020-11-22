@@ -111,6 +111,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHou
               value={startHourField.value}
               onChangeText={handleChangeStartHour}
               error={startHourField.error}
+              keyboardType="number-pad"
             />
             :
             <Text style={styles.hourText}>
@@ -125,6 +126,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHou
               value={endHourField.value}
               onChangeText={handleChangeEndHour}
               error={endHourField.error}
+              keyboardType="number-pad"
             />
             :
             <Text style={styles.hourText}>
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dayName: {
-    width: 40,
+    width: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
