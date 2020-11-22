@@ -42,6 +42,13 @@ export const updateDayByDate = ({ startHour, endHour, dateString }) => {
   );
 }
 
+export const deleteDay = (id) => {
+  return createOperation(
+    'DELETE FROM days WHERE id = ?',
+    [id]
+  );
+}
+
 export const getAllResults = () => {
   return createOperation(
     'SELECT * FROM days;',  

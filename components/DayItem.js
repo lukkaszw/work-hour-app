@@ -11,6 +11,7 @@ import Colors from '../constants/colors';
 
 import useDayHourForm from '../hooks/useDayHourForm';
 import useFastAdd from '../hooks/useFastAdd';
+import useRemoveDaysHours from '../hooks/useRemoveDaysHours';
 
 const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
 
@@ -72,6 +73,14 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
     currentMonth: `${month}.${year}`,
   });
 
+  const {
+    isRemoving,
+    handleRemoveDaysHours,
+  } = useRemoveDaysHours(id);
+
+
+  const isLoading = isSending || isSendingFast || isRemoving;
+
   return ( 
     <View style={styles.item}>
       <View style={styles.dayNr}>
@@ -115,50 +124,14 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
       </View>
       <View style={styles.actions}>
         {
-          !isEditing ?
-            (
-              isSendingFast ?
-              <ActivityIndicator 
-                size='small'
-                color={Colors.primary}
-              />
-              :
-              <>
-                <View style={styles.icon}>
-                  <IconButton 
-                    iconName='md-create'
-                    onPress={handleStartEditMode}
-                    color='deeppink'
-                  />
-                </View>
-                {
-                  !id ?
-                    <View style={styles.icon}>
-                      <IconButton 
-                        iconName='ios-color-wand'
-                        onPress={handleFastAdd}
-                        color={areInitialExists ? 'dodgerblue' : 'gray'}
-                      />
-                    </View>
-                    :
-                    <View style={styles.icon}>
-                      <IconButton 
-                        iconName='ios-remove'
-                        onPress={handleCancelEditMode}
-                        color='red'
-                      />
-                    </View>
-                }
-              </>
-            )
+          isLoading ?
+            <ActivityIndicator 
+              size='small'
+              color={Colors.primary}
+            />
             :
             (
-              isSending ?
-                <ActivityIndicator 
-                  size='small'
-                  color={Colors.primary}
-                />
-                :
+              isEditing ?
                 <>
                   <View style={styles.icon}>
                     <IconButton 
@@ -175,6 +148,34 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, startHour, endHour }) => {
                     />
                   </View>
                 </>
+                :
+                <>
+                  <View style={styles.icon}>
+                    <IconButton 
+                      iconName='md-create'
+                      onPress={handleStartEditMode}
+                      color='deeppink'
+                    />
+                  </View>
+                  {
+                    !id ?
+                      <View style={styles.icon}>
+                        <IconButton 
+                          iconName='ios-color-wand'
+                          onPress={handleFastAdd}
+                          color={areInitialExists ? 'dodgerblue' : 'gray'}
+                        />
+                      </View>
+                      :
+                      <View style={styles.icon}>
+                        <IconButton 
+                          iconName='ios-remove'
+                          onPress={handleRemoveDaysHours}
+                          color='red'
+                        />
+                      </View>
+                  }
+              </>
             )
         }
       </View>

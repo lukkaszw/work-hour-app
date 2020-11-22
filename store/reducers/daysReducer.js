@@ -45,6 +45,11 @@ const daysReducer = (statePart = {}, action = {}) => {
             return day;
           }),
         }
+    case actions.DELETE_DAY:
+        return {
+          ...statePart,
+          data: statePart.data.filter(day => day.id !== action.payload),
+        }
     default: 
       return statePart;
   }

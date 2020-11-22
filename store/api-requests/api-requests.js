@@ -1,5 +1,5 @@
 import * as actionCreators from '../actions/actionCreators';
-import { getSpecificDays, insertDay, updateDayByDate, getYears } from '../../db/db';
+import { getSpecificDays, insertDay, updateDayByDate, getYears, deleteDay } from '../../db/db';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import getMonthFromDate from '../../utils/getMonthFromDate';
 
@@ -81,5 +81,14 @@ export const getInitialSettings = () => {
     if(settings !== null) {
       dispatch(actionCreators.setSettings(JSON.parse(settings)));
     }
+  }
+}
+
+export const removeDay = (dayId) => {
+  return async dispatch => {
+    return deleteDay(dayId)
+      .then(() => {
+        dispatch(actionCreators.deleteDay(dayId));
+      })
   }
 }
