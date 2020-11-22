@@ -190,7 +190,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHou
                     <IconButton 
                       iconName='ios-bed'
                       onPress={handleSetLeave}
-                      color='dodgerblue'
+                      color={isLeave ? 'gray' : 'dodgerblue'}
                     />
                   </View>
               </>
