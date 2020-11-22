@@ -32,6 +32,7 @@ export const addDay = ({ startHour, endHour, dateString, currentMonth }) => {
             date: dateString,
             startHour,
             endHour,
+            year,
           }));
         }
 

@@ -1,9 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import { addDay, editDayByDate } from '../store/api-requests/api-requests';
-import changeHourInputText from '../utils/changeHourInputText';
-import { validateHourFormat } from '../utils/validators';
 import useHoursSettings from './useHoursSettings';
 
 import moment from 'moment';
@@ -12,9 +10,13 @@ const useDayHourForm = ({
   initialValues,
   currentMonth,
   isForEdit,
+  isMonthPage,
+  closeEditMode,
 }) => {
 
   const dispatch = useDispatch();
+
+  const compExists = useRef(true);
 
   const {
     startHourField,
@@ -67,13 +69,36 @@ const useDayHourForm = ({
       currentMonth,
     };
 
-    dispatch(addDay(data))
+    if(isForEdit) {
+      dispatch(editDayByDate(data))
+        .then(() => {
+          if(compExists) {
+            setIsSending(false);
+            closeEditMode();
+          }
+        })
+        .catch((error) => {
+          Alert.alert(
+            'Błąd!',
+            'Nie udało się zaktualizować poprawnie godzin pracy!',
+          );
+        }); 
+    } else {
+      dispatch(addDay(data))
       .then(result => {
-        setIsSending(false);
-        Alert.alert(
-          'Sukces!',
-          'Dodałeś poprawnie godziny!'
-        );
+        if(compExists) {
+          setIsSending(false);
+          if(isMonthPage) {
+            closeEditMode();
+          }
+        }
+
+        if(!isMonthPage) {
+          Alert.alert(
+            'Sukces!',
+            'Dodałeś poprawnie godziny!'
+          );
+        }
       })
       .catch(error => {
         let message = 'Nie udało się zapisać godzin pracy!';
@@ -97,8 +122,11 @@ const useDayHourForm = ({
                   );
                 })
                 .catch(error => {
-                  console.log(error.message);
-                })
+                  Alert.alert(
+                    'Błąd!',
+                    'Nie udało się zaktualizować poprawnie godzin pracy!',
+                  );
+                });
             },
           })
         }
@@ -110,6 +138,9 @@ const useDayHourForm = ({
           alertBtns
         );
       });
+    }
+
+
 
   }, [startHourField, endHourField, setEndHourField, setStartHourField, dateString, currentMonth]);
 
