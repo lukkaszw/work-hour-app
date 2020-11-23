@@ -19,3 +19,4 @@ export const setSettings = (settings) => ({ payload: settings, type: ACTIONS.SET
 export const setOverdueHolidays = (overdueHolidays) => ({ payload: overdueHolidays, type: ACTIONS.SET_OVERDUE_HOLIDAYS });
 export const setCurrentHolidays = (currentHolidays) => ({ payload: currentHolidays, type: ACTIONS.SET_CURRENT_HOLIDAYS });
 export const setHolidays = ({ overdueHolidays, currentHolidays }) => ({ payload: { overdueHolidays, currentHolidays }, type: ACTIONS.SET_HOLIDAYS});
+export const setOutOfDateHolidays = (outOfDateStatus) => ({ payload: outOfDateStatus, type: ACTIONS.SET_OUT_OF_DATE_HOLIDAYS });

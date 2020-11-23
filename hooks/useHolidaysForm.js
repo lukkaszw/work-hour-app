@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { setOverdueHolidays, setCurrentHolidays } from '../store/actions/actionCreators';
+import { setOverdueHolidays, setCurrentHolidays, setOutOfDateHolidays } from '../store/actions/actionCreators';
 import { checkHolidays } from '../db/db';
 
 const useHolidaysForm = () => {
@@ -17,6 +17,7 @@ const useHolidaysForm = () => {
 
   const overdueHolidays = useSelector(state => state.holidays.overdueHolidays);
   const currentHolidays = useSelector(state => state.holidays.currentHolidays);
+  const outOfDate = useSelector(state => state.holidays.outOfDate);
 
   const clearCurrentSettings = useCallback(() => {
     if(overdueError) {
@@ -36,6 +37,13 @@ const useHolidaysForm = () => {
     clearCurrentSettings();
     dispatch(setCurrentHolidays(text));
   }, [dispatch, setCurrentHolidays, clearCurrentSettings]);
+
+  useEffect(() => {
+    if(outOfDate) {
+      setHolidays(null);
+      dispatch(setOutOfDateHolidays(false));
+    }
+  }, [outOfDate, setHolidays]);
 
   const handleCheckHolidays = useCallback(() => {
 

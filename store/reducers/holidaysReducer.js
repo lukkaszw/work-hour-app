@@ -18,6 +18,11 @@ const holidaysReducer = (statePart = {}, action = {}) => {
         ...statePart,
         currentHolidays: action.payload,
       }
+    case actions.SET_OUT_OF_DATE_HOLIDAYS:
+      return {
+        ...statePart,
+        outOfDate: action.payload,
+      }
     default: 
       return statePart;
   }

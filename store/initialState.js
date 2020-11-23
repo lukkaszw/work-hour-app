@@ -23,6 +23,7 @@ const initialState = {
   holidays: {
     overdueHolidays: '0',
     currentHolidays: '20',
+    outOfDate: false,
   },
 };
 
