@@ -66,7 +66,6 @@ export const fetchYears = () => {
     dispatch(actionCreators.startYearsLoading());
     return getYears()
       .then(result => {
-        console.log(result.rows._array);
 
         dispatch(actionCreators.setYears({ years: result.rows._array.sort((a, b) => a.year > b.year ) }));
         return result;
