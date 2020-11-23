@@ -82,6 +82,13 @@ export const getInitialSettings = () => {
     if(settings !== null) {
       dispatch(actionCreators.setSettings(JSON.parse(settings)));
     }
+    const holidays = await AsyncStorage.getItem('holidays');
+
+    console.log(holidays);
+
+    if(holidays !== null) {
+      dispatch(actionCreators.setHolidays(JSON.parse(holidays)));
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { setOverdueHolidays, setCurrentHolidays } from '../store/actions/actionCreators';
 import { checkHolidays } from '../db/db';
@@ -57,7 +58,7 @@ const useHolidaysForm = () => {
           used: holidaysCount,
           left: (overdue + current) - holidaysCount,
         });
-
+        AsyncStorage.setItem('holidays', JSON.stringify({ overdueHolidays, currentHolidays }));
       })  
       .catch(error => {
         setIsLoading(false);

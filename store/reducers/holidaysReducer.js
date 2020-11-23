@@ -2,6 +2,12 @@ import actions from '../actions/actions';
 
 const holidaysReducer = (statePart = {}, action = {}) => {
   switch (action.type) {
+    case actions.SET_HOLIDAYS:
+      return {
+        ...statePart,
+        overdueHolidays: action.payload.overdueHolidays,
+        currentHolidays: action.payload.currentHolidays,
+      }
     case actions.SET_OVERDUE_HOLIDAYS:
       return {
         ...statePart,
