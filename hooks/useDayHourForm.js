@@ -67,8 +67,6 @@ const useDayHourForm = ({
       }  
     }
 
-    console.log('isWOrking next');
-
     setIsSending(true);
 
     const data = { 
@@ -156,7 +154,7 @@ const useDayHourForm = ({
 
 
 
-  }, [startHourField, endHourField, setEndHourField, setStartHourField, dateString, currentMonth]);
+  }, [startHourField, endHourField, setEndHourField, setStartHourField, setIsSending, dateString, currentMonth, isLeave, closeEditMode, editDayByDate, addDay, dispatch, isForEdit, isMonthPage]);
 
   return {
     startHourField,
