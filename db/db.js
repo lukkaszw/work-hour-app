@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import moment from 'moment';
 
 const db = SQLite.openDatabase('days.db');
 
@@ -72,5 +73,14 @@ export const getSpecificDays = ({ startDate, endDate }) => {
   return createOperation(
     'SELECT * FROM days WHERE date BETWEEN ? and ?',
     [startDate, endDate],
+  );
+}
+
+export const checkHolidays = () => {
+  const year = moment().year();
+
+  return createOperation(
+    'SELECT COUNT(*) AS holidays FROM days WHERE date BETWEEN ? and ? AND isLeave = ?',
+    [`${year}-01-01`, `${year}-12-31`, 1]
   );
 }

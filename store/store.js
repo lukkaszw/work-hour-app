@@ -7,11 +7,13 @@ import initialState from './initialState';
 import daysReducer from './reducers/daysReducer';
 import historyReducer from './reducers/historyReducer';
 import settingsReducer from './reducers/settingsReducer';
+import holidaysReducer from './reducers/holidaysReducer';
 
 const rootReducer = combineReducers({
   days: daysReducer,
   history: historyReducer,
   settings: settingsReducer,
+  holidays: holidaysReducer,
 });
 
 const additionalMiddlewares = process.env.ENV === 'production' ? applyMiddleware(thunk) : composeWithDevTools(applyMiddleware(thunk));

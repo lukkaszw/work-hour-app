@@ -19,7 +19,11 @@ const initialState = {
     workOnSunday: false,
     startOnSunday: '07:00',
     endOnSunday: '15:00',
-  }
+  },
+  holidays: {
+    overdueHolidays: '0',
+    currentHolidays: '20',
+  },
 };
 
 export default initialState;

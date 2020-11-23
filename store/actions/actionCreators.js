@@ -14,4 +14,7 @@ export const setYearsError = () => ({ type: ACTIONS.SET_YEARS_ERROR });
 export const resetYearsError = () => ({ type: ACTIONS.RESET_DAYS_ERROR });
 export const addYear = ({year}) => ({ payload: { year }, type: ACTIONS.ADD_YEAR });
 
-export const setSettings = (settings) => ({ payload: settings, type: ACTIONS.SET_SETTINGS }); 
+export const setSettings = (settings) => ({ payload: settings, type: ACTIONS.SET_SETTINGS });
+
+export const setOverdueHolidays = (overdueHolidays) => ({ payload: overdueHolidays, type: ACTIONS.SET_OVERDUE_HOLIDAYS });
+export const setCurrentHolidays = (currentHolidays) => ({ payload: currentHolidays, type: ACTIONS.SET_CURRENT_HOLIDAYS });

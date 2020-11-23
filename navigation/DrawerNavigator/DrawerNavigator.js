@@ -6,6 +6,7 @@ import Colors from '../../constants/colors';
 
 import TabNavigator from '../TabNavigator/TabNavigator';
 import SettingsNavigator from '../StackNavigators/SettingsNavigator';
+import HolidaysNavigator from '../StackNavigators/HolidaysNavigator';
 
 const DrawerNavigator = createDrawerNavigator({
   App: { 
@@ -28,6 +29,19 @@ const DrawerNavigator = createDrawerNavigator({
       drawerIcon: ({ tintColor }) => (
         <Ionicons 
           name='ios-settings'
+          color={tintColor}
+          size={23}
+        />
+      )
+    }
+  },
+  Holidays: { 
+    screen: HolidaysNavigator,
+    navigationOptions: {
+      drawerLabel: 'Stan urlopu',
+      drawerIcon: ({ tintColor }) => (
+        <Ionicons 
+          name='ios-bed'
           color={tintColor}
           size={23}
         />
