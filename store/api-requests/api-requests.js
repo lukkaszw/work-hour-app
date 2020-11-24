@@ -36,10 +36,7 @@ export const addDay = ({ startHour, endHour, dateString, isLeave, currentMonth }
             year,
           }));
         }
-        if(isLeave) {
-          dispatch(actionCreators.setOutOfDateHolidays(true));
-        }
-
+        dispatch(actionCreators.setOutOfDateHolidays(true));
         dispatch(actionCreators.addYear({ year }));
         return result;
       });
@@ -59,10 +56,7 @@ export const editDayByDate = ({  startHour, endHour, isLeave, dateString, curren
             dateString,
           }))
         }
-
-        if(isLeave) {
-          dispatch(actionCreators.setOutOfDateHolidays(true));
-        }
+        dispatch(actionCreators.setOutOfDateHolidays(true));
         return result;
       })
   }
