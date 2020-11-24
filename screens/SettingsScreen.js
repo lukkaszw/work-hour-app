@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, View, Text, Switch, StyleSheet } from 'react-native';
+import { Button, View, Text, Switch, StyleSheet, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 import HourSettings from '../components/HourSettings';
@@ -10,6 +10,7 @@ import DivideLine from '../components/DivideLine';
 import InlineButton from '../components/InlineButton';
 
 import Colors from '../constants/colors';
+import { APP_HEIGHT } from '../constants/sizes';
 
 const SettingsScreen = ({ navigation }) => {
 
@@ -40,85 +41,87 @@ const SettingsScreen = ({ navigation }) => {
   } = useSettings({ initialValues });
 
   return ( 
-    <View style={styles.screen}>
-      <View style={styles.hourSettings}>
-        <HourSettings 
-          headerText="Podaj obecne godz. pracy:"
-          onFromChangeHandler={handleChangeStartHour}
-          onToChangeHandler={handleChangeEndHour}
-          fromValue={startHourField.value}
-          fromError={startHourField.error}
-          toValue={endHourField.value}
-          toError={endHourField.error}
-        />
-      </View>
-      <DivideLine />
-      <View style={styles.specificDaySettings}>
-        <View style={styles.centeredContent}>
-          <View style={styles.checkItem}>
-            <Text style={styles.checkText}>
-              Praca w sobotę
-            </Text>
-            <Switch 
-              onValueChange={toggleWorkOnSaturday}
-              value={workOnSaturday}
+    <ScrollView>
+      <View style={styles.screen}>
+        <View style={styles.hourSettings}>
+          <HourSettings 
+            headerText="Podaj obecne godz. pracy:"
+            onFromChangeHandler={handleChangeStartHour}
+            onToChangeHandler={handleChangeEndHour}
+            fromValue={startHourField.value}
+            fromError={startHourField.error}
+            toValue={endHourField.value}
+            toError={endHourField.error}
+          />
+        </View>
+        <DivideLine />
+        <View style={styles.specificDaySettings}>
+          <View style={styles.centeredContent}>
+            <View style={styles.checkItem}>
+              <Text style={styles.checkText}>
+                Praca w sobotę
+              </Text>
+              <Switch 
+                onValueChange={toggleWorkOnSaturday}
+                value={workOnSaturday}
+              />
+            </View>
+          </View>
+          {
+            workOnSaturday &&
+              <HourSettings 
+                onFromChangeHandler={handleChangeSaturdayStart}
+                onToChangeHandler={handleChangeSaturdayEnd}
+                fromValue={startOnSaturdayField.value}
+                fromError={startOnSaturdayField.error}
+                toValue={endOnSaturdayField.value}
+                toError={endOnSaturdayField.error}
+              />
+          }
+        </View> 
+        <DivideLine />
+        <View style={styles.specificDaySettings}>
+          <View  style={styles.centeredContent}>
+            <View style={styles.checkItem}>
+              <Text style={styles.checkText}>
+                Praca w niedzielę
+              </Text>
+              <Switch 
+                onValueChange={toggleWorkOnSunday}
+                value={workOnSunday}
+              />
+            </View>
+          </View>
+          {
+            workOnSunday &&
+              <HourSettings 
+                onFromChangeHandler={handleChangeSundayStart}
+                onToChangeHandler={handleChangeSundayEnd}
+                fromValue={startOnSundayField.value}
+                fromError={startOnSundayField.error}
+                toValue={endOnSundayField.value}
+                toError={endOnSundayField.error}
+              />
+          }
+        </View> 
+        <DivideLine />
+        <View style={styles.buttons}>
+          <View style={styles.button}>
+            <InlineButton 
+              title='Anuluj'
+              onPress={handleNavigateToMonthScreen}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button 
+              title='Zapisz'
+              color={Colors.primary}
+              onPress={handleSaveSettings}
             />
           </View>
         </View>
-        {
-          workOnSaturday &&
-            <HourSettings 
-              onFromChangeHandler={handleChangeSaturdayStart}
-              onToChangeHandler={handleChangeSaturdayEnd}
-              fromValue={startOnSaturdayField.value}
-              fromError={startOnSaturdayField.error}
-              toValue={endOnSaturdayField.value}
-              toError={endOnSaturdayField.error}
-            />
-        }
-      </View> 
-      <DivideLine />
-      <View style={styles.specificDaySettings}>
-        <View  style={styles.centeredContent}>
-          <View style={styles.checkItem}>
-            <Text style={styles.checkText}>
-              Praca w niedzielę
-            </Text>
-            <Switch 
-              onValueChange={toggleWorkOnSunday}
-              value={workOnSunday}
-            />
-          </View>
-        </View>
-        {
-          workOnSunday &&
-            <HourSettings 
-              onFromChangeHandler={handleChangeSundayStart}
-              onToChangeHandler={handleChangeSundayEnd}
-              fromValue={startOnSundayField.value}
-              fromError={startOnSundayField.error}
-              toValue={endOnSundayField.value}
-              toError={endOnSundayField.error}
-            />
-        }
-      </View> 
-      <DivideLine />
-      <View style={styles.buttons}>
-        <View style={styles.button}>
-          <InlineButton 
-            title='Anuluj'
-            onPress={handleNavigateToMonthScreen}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button 
-            title='Zapisz'
-            color={Colors.primary}
-            onPress={handleSaveSettings}
-          />
-        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -145,15 +148,15 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 20,
-    paddingTop: 60,
+    paddingTop: APP_HEIGHT < 600 ? 20 : 60,
   },
   hourSettings: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: APP_HEIGHT < 600 ? 20 : 40,
   },
   specificDaySettings: {
-    marginVertical: 40,
+    marginVertical: APP_HEIGHT < 600 ? 20 : 40,
   },
   checkItem: {
     width: '80%',
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttons: {
-    paddingVertical: 30,
+    paddingVertical: APP_HEIGHT < 600 ? 20 : 30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
