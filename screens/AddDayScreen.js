@@ -10,6 +10,7 @@ import HourSettings from '../components/HourSettings';
 import useDayHourForm from '../hooks/useDayHourForm';
 
 import Colors from '../constants/colors';
+import { APP_HEIGHT } from '../constants/sizes';
 
 const AddDayScreen = () => {
 
@@ -131,25 +132,25 @@ const styles = StyleSheet.create({
   },
   leaveStatus: {
     flexDirection: 'row',
-    marginBottom: 30,
+    marginBottom: APP_HEIGHT < 600 ? 20 : 30,
     alignItems: 'center',
   },  
   dateChangeBtn: {
     marginLeft: 20,
   },
   dateInfo: {
-    marginTop: 60,
+    marginTop: APP_HEIGHT < 600 ? 30 : 60,
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
   },
   leaveText: {
     marginRight: 10,
   },  
   btnWrapper: {
-    marginTop: 60,
+    marginTop: APP_HEIGHT < 600 ? 30 : 60,
   },
 });
  

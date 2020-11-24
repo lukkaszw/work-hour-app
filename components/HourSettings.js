@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 
 import InputField from '../components/InputField';
+import { APP_HEIGHT } from '../constants/sizes';
 
 const HourSettings = ({ 
   headerText,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },  
   topText: {
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
     marginBottom: 20,
     textAlign: 'center',
   },  
@@ -92,13 +93,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hourLabel: {
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
     marginRight: 12,
   },
   additionalInputStyles: {
     width: 60,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
   },
 });
  
