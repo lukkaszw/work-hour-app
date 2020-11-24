@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, Button, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 
 import InputField from '../components/InputField';
 import Colors from '../constants/colors';
+import { APP_HEIGHT } from '../constants/sizes';
 
 import useHolidaysForm from '../hooks/useHolidaysForm';
+
 
 const HolidaysScreen = () => {
 
@@ -135,21 +137,21 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   options: {
-    marginBottom: 30,
+    marginBottom: APP_HEIGHT < 600 ? 10 : 30,
   },
   text: {
-    fontSize: 18,
+    fontSize:  APP_HEIGHT < 600 ? 16 : 18,
     marginRight: 10,
     maxWidth: '75%',
   },  
   number: {
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
     fontWeight: '700',
   },  
   input: {
     width: 40,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: APP_HEIGHT < 600 ? 16 : 18,
   },  
   option: {
     flexDirection: 'row',
@@ -158,11 +160,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    marginTop: 30,
+    marginTop:  APP_HEIGHT < 600 ? 15 : 30,
   },
   result: {
     width: '100%',
     padding: 20,
+    paddingTop: APP_HEIGHT < 600 ? 0 : 20,
   },
 });
 
