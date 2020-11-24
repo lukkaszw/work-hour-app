@@ -79,7 +79,7 @@ MonthsModal.propTypes = {
 
 const styles = StyleSheet.create({
   btnWrapper: {
-    marginTop: 30,
+    margin: 20,
     alignItems: 'center',
   },
   header: {
