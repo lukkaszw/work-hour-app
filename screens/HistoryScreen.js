@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 import MonthsModal from '../components/MonthsModal';
 
 import YearItem from '../components/YearItem';
 import Loader from '../components/Loader';
+
+import Colors from '../constants/colors';
 
 import { fetchYears } from '../store/api-requests/api-requests';
 
@@ -27,21 +29,28 @@ const HistoryScreen = ({ navigation }) => {
   const onOpenModal = useCallback((year) => setChosenYear(year), [setChosenYear]);
 
   if(isLoading) {
-    <Loader />
+    <View style={styles.centeredView}>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>
   }
 
 
   return ( 
     <ScrollView>
-      {
-        years.map(yearItem => (
-          <YearItem 
-            key={yearItem.year}
-            year={yearItem.year}
-            onShowMonths={onOpenModal}
-          />
-        ))
-      }
+      <>
+        {
+          years.length > 0 ?
+            years.map(yearItem => (
+              <YearItem 
+                key={yearItem.year}
+                year={yearItem.year}
+                onShowMonths={onOpenModal}
+              />
+            ))
+            :
+            <Text style={styles.text}>Brak historii!</Text>
+        }
+      </>
       <MonthsModal 
         year={chosenYear}
         onClose={onCloseModal}
@@ -70,4 +79,16 @@ HistoryScreen.navigationOptions = (navData) => {
   }
 }
  
+const styles = StyleSheet.create({
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },  
+  text: {
+    textAlign: 'center',
+    marginTop: 50,
+    fontSize: 18,
+  }
+});
+
 export default HistoryScreen;

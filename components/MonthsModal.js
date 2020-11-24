@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Modal, ScrollView, StyleSheet, View, Button } from 'react-native';
+import { Modal, ScrollView, StyleSheet, View, Text } from 'react-native';
 import MonthLinkItem from './MonthLinkItem';
 import InlineButton from './InlineButton';
 import Loader from '../components/Loader';
@@ -36,6 +36,9 @@ const MonthsModal = ({ year, onClose, navigation }) => {
       visible={!!year}
     >
       <ScrollView>
+        <Text style={styles.header}>
+          Historia na rok {year}:
+        </Text>
         {
           isLoading ?
           <Loader />
@@ -78,6 +81,14 @@ const styles = StyleSheet.create({
   btnWrapper: {
     marginTop: 30,
     alignItems: 'center',
+  },
+  header: {
+    textAlign: 'center',
+    padding: 20,
+    fontSize: 18,
+    fontWeight: '700',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   }
 });
  
