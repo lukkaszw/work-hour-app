@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ActivityIndicator ,StyleSheet, View, Text, } from 'react-native';
+import { ActivityIndicator ,StyleSheet, View, Text, Dimensions, } from 'react-native';
 import IconButton from './IconButton';
 import InputField from './InputField';
 
@@ -13,6 +13,8 @@ import useDayHourForm from '../hooks/useDayHourForm';
 import useFastAdd from '../hooks/useFastAdd';
 import useRemoveDaysHours from '../hooks/useRemoveDaysHours';
 import useSetDayAsLeave from '../hooks/useSetDayAsLeave';
+
+import { APP_WIDTH } from '../constants/sizes';
 
 const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHour }) => {
 
@@ -217,6 +219,7 @@ DayItem.propTypes = {
 const styles = StyleSheet.create({
   item: { 
     flexDirection: 'row',
+    flexWrap: 'wrap',
     padding: 10,
     borderBottomColor: '#aaa',
     borderBottomWidth: 1,
@@ -245,9 +248,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   actions: {
-    flex: 1,
+    paddingTop: APP_WIDTH < 350 ? 10 : 0,
+    width: APP_WIDTH < 350 ? '100%' : 'auto',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: APP_WIDTH < 350 ? 'flex-end' : 'center',
     alignItems: 'center',
     marginRight: 6,
   },

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderBtn from '../components/HeaderButton';
 import HoursSummary from '../components/HoursSummary';
