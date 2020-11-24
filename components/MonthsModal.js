@@ -5,6 +5,7 @@ import { Modal, ScrollView, StyleSheet, View, Text } from 'react-native';
 import MonthLinkItem from './MonthLinkItem';
 import InlineButton from './InlineButton';
 import Loader from '../components/Loader';
+import IconButton from '../components/IconButton';
 
 import { getMonths } from '../db/db';
 import MONTHS from '../constants/months';
@@ -36,6 +37,14 @@ const MonthsModal = ({ year, onClose, navigation }) => {
       visible={!!year}
     >
       <ScrollView>
+        <View style={styles.closeIconWrapper}>
+          <IconButton 
+            onPress={onClose}
+            iconName='ios-close'
+            size={25}
+            color='red'
+          />
+        </View>
         <Text style={styles.header}>
           Historia na rok {year}:
         </Text>
@@ -84,11 +93,17 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: 'center',
-    padding: 20,
+    paddingBottom: 20,
     fontSize: 18,
     fontWeight: '700',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  closeIconWrapper: {
+    flexDirection: 'row',
+    padding: 5,
+    paddingBottom: 0,
+    justifyContent: 'flex-end',
   }
 });
  
