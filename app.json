@@ -1,13 +1,18 @@
 {
   "expo": {
-    "name": "work-hours",
-    "slug": "work-hours",
+    "name": "Godziny Pracy",
+    "description": "The Godziny Pracy is my first app for android built using react native. It's the simple app for counting your monthly working hours. This app is only in polish language version.",
+    "slug": "godziny-pracy",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
+    "platforms": [
+      "android"
+    ],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -16,17 +21,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
+      "package": "com.lukkaszw.godziny_pracy",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+        "foregroundImage": "./assets/adaptive.png",
+        "backgroundColor": "#fff200"
+      },
+      "permissions": []
     }
   }
 }
