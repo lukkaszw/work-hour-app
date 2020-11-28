@@ -6,13 +6,16 @@ import { countDaysHoursAmount } from '../utils/generateHoursAmount';
 
 const HoursSummary = ({ days }) => {
 
-  const { totalHoursString, leaveDays } = useMemo(() => {
-    const { hoursAmount, leaveDays } = days.reduce((prevValue, nextItem) => {
+  const { totalHoursString, leaveDays, sickLeaveDays } = useMemo(() => {
+    const { hoursAmount, leaveDays, sickLeaveDays } = days.reduce((prevValue, nextItem) => {
       let hoursAmount = prevValue.hoursAmount;
       let leaveDays = prevValue.leaveDays;
+      let sickLeaveDays = prevValue.sickLeaveDays;
 
       if(nextItem.isLeave) {
         leaveDays += 1;
+      } else if(nextItem.isSickLeave) {
+        sickLeaveDays += 1;
       } else if (nextItem.startHour) {
         hoursAmount += countDaysHoursAmount(nextItem.startHour, nextItem.endHour);
       }
@@ -20,8 +23,9 @@ const HoursSummary = ({ days }) => {
       return {
         hoursAmount,
         leaveDays,
+        sickLeaveDays,
       }
-    },{ hoursAmount: 0, leaveDays: 0});
+    },{ hoursAmount: 0, leaveDays: 0, sickLeaveDays: 0 });
 
     const fullHours = Math.ceil(hoursAmount);
     const aloneMinutes = Math.ceil((hoursAmount - fullHours) * 60);
@@ -30,6 +34,7 @@ const HoursSummary = ({ days }) => {
     return {
       totalHoursString,
       leaveDays,
+      sickLeaveDays,
     };
   }, [days]);
 
@@ -49,6 +54,14 @@ const HoursSummary = ({ days }) => {
         </Text>
         <Text>
           {leaveDays}
+        </Text>
+      </View>
+      <View style={styles.data}>
+        <Text>
+          Dni na L4: 
+        </Text>
+        <Text>
+          {sickLeaveDays}
         </Text>
       </View>
     </View>

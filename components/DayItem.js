@@ -16,7 +16,7 @@ import useSetDayAsLeave from '../hooks/useSetDayAsLeave';
 
 import { APP_WIDTH } from '../constants/sizes';
 
-const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHour }) => {
+const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, startHour, endHour }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const settings = useSelector(state => state.settings);
@@ -117,7 +117,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHou
             />
             :
             <Text style={styles.hourText}>
-              {isLeave ? 'UW' : startHour || '-'}
+              {isLeave ? 'UW' : (isSickLeave ? 'L4' : startHour || '-')}
             </Text>
         }
       </View>
@@ -132,7 +132,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, startHour, endHou
             />
             :
             <Text style={styles.hourText}>
-              {isLeave ? 'UW' : endHour || '-'}
+              {isLeave ? 'UW' : (isSickLeave ? 'L4' : endHour || '-')}
             </Text>
         }
     
@@ -210,6 +210,7 @@ DayItem.propTypes = {
   dayNr: PropTypes.string.isRequired,
   month: PropTypes.string.isRequired,
   isLeave: PropTypes.number,
+  isSickLeave: PropTypes.number,
   year: PropTypes.number.isRequired,
   dayOfWeek: PropTypes.number.isRequired,
   startHour: PropTypes.string,
