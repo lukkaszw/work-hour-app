@@ -2,9 +2,11 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ActivityIndicator ,StyleSheet, View, Text, Dimensions, } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import IconButton from './IconButton';
 import InputField from './InputField';
+import DayItemText from './DayItemText';
+import DayItemActions from './DayItemActions';
 
 import DAYS from '../constants/days';
 import Colors from '../constants/colors';
@@ -18,11 +20,18 @@ import { APP_WIDTH } from '../constants/sizes';
 
 const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, startHour, endHour }) => {
 
+  const [areOptionsActive, setAreOptionsActive] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const settings = useSelector(state => state.settings);
 
   const handleStartEditMode = useCallback(() => setIsEditing(true), [setIsEditing]);
   const handleCancelEditMode = useCallback(() => setIsEditing(false), [setIsEditing]);
+  const handleToggleOptions = useCallback(() => setAreOptionsActive(prevValue => {
+    if(prevValue) {
+      setIsEditing(false);
+    }
+    return !prevValue
+  }), [setAreOptionsActive, setIsEditing]);
 
   const isHolidayStyles = dayOfWeek === 1 ? styles.holiday : null;
 
@@ -97,110 +106,73 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
   return ( 
     <View style={styles.item}>
       <View style={styles.dayNr}>
-        <Text>
+        <DayItemText>
           {dayNr}.{month}
-        </Text>
+        </DayItemText>
       </View>
       <View style={styles.dayName}>
-        <Text style={{...styles.dayNameText, ...isHolidayStyles}}>
+        <DayItemText style={{...styles.dayNameText, ...isHolidayStyles}}>
           {DAYS[dayOfWeek]}
-        </Text>
+        </DayItemText>
       </View>
       <View style={styles.hours}>
         {
           isEditing ?
             <InputField 
+              inputStyles={styles.inputStyles}
               value={startHourField.value}
               onChangeText={handleChangeStartHour}
               error={startHourField.error}
               keyboardType="number-pad"
             />
             :
-            <Text style={styles.hourText}>
+            <DayItemText style={styles.hourText}>
               {isLeave ? 'UW' : (isSickLeave ? 'L4' : startHour || '-')}
-            </Text>
+            </DayItemText>
         }
       </View>
       <View style={styles.hours}>
         {
           isEditing ?
             <InputField 
+              inputStyles={styles.inputStyles}
               value={endHourField.value}
               onChangeText={handleChangeEndHour}
               error={endHourField.error}
               keyboardType="number-pad"
             />
             :
-            <Text style={styles.hourText}>
+            <DayItemText style={styles.hourText}>
               {isLeave ? 'UW' : (isSickLeave ? 'L4' : endHour || '-')}
-            </Text>
-        }
-    
-      </View>
-      <View style={styles.actions}>
-        {
-          isLoading ?
-            <ActivityIndicator 
-              size='small'
-              color={Colors.primary}
-            />
-            :
-            (
-              isEditing ?
-                <>
-                  <View style={styles.icon}>
-                    <IconButton 
-                      iconName='md-checkmark'
-                      onPress={handleSendData}
-                      color='green'
-                    />
-                  </View>
-                  <View style={styles.icon}>
-                    <IconButton 
-                      iconName='md-close'
-                      onPress={handleCancelEditMode}
-                      color='red'
-                    />
-                  </View>
-                </>
-                :
-                <>
-                  <View style={styles.icon}>
-                    <IconButton 
-                      iconName='md-create'
-                      onPress={handleStartEditMode}
-                      color='deeppink'
-                    />
-                  </View>
-                  {
-                    !id ?
-                      <View style={styles.icon}>
-                        <IconButton 
-                          iconName='ios-flash'
-                          onPress={handleFastAdd}
-                          color={areInitialExists ? 'orange' : 'gray'}
-                        />
-                      </View>
-                      :
-                      <View style={styles.icon}>
-                        <IconButton 
-                          iconName='ios-remove'
-                          onPress={handleRemoveDaysHours}
-                          color='red'
-                        />
-                      </View>
-                  }
-                  <View style={styles.icon}>
-                    <IconButton 
-                      iconName='ios-bed'
-                      onPress={handleSetLeave}
-                      color={isLeave ? 'gray' : 'dodgerblue'}
-                    />
-                  </View>
-              </>
-            )
+            </DayItemText>
         }
       </View>
+      <View style={styles.optionsTrigger}>
+        <View style={styles.icon}>
+          <IconButton 
+            iconName={areOptionsActive ? 'md-close' : 'ios-construct'}
+            onPress={handleToggleOptions}
+            color={Colors.primary}
+            size={25}
+          />
+        </View>
+      </View>
+      {
+        areOptionsActive &&
+          <DayItemActions 
+            id={id}
+            isLoading={isLoading} 
+            isLeave={isLeave} 
+            isEditing={isEditing}
+            areInitialExists={areInitialExists}
+            onCancelEditMode={handleCancelEditMode} 
+            onStartEditMode={handleStartEditMode}
+            onSendData={handleSendData}  
+            onFastAdd={handleFastAdd} 
+            onRemoveDaysHours={handleRemoveDaysHours} 
+            onSetLeave={handleSetLeave}
+          />
+      }
     </View>
   );
 }
@@ -225,13 +197,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#aaa',
     borderBottomWidth: 1,
   },
+  inputStyles: {
+    fontSize: 17,
+  },
   dayNr: {
-    width: 45,
+    width: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
   dayName: {
-    width: 45,
+    width: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -248,14 +223,10 @@ const styles = StyleSheet.create({
   hourText: {
     textAlign: 'center',
   },
-  actions: {
-    paddingTop: APP_WIDTH < 350 ? 10 : 0,
-    width: APP_WIDTH < 350 ? '100%' : 'auto',
-    flexDirection: 'row',
-    justifyContent: APP_WIDTH < 350 ? 'flex-end' : 'center',
-    alignItems: 'center',
-    marginRight: 6,
-  },
+  optionsTrigger: {
+    width: 50,
+    justifyContent: 'center',
+  },  
   icon: {
     marginHorizontal: 3,
   }

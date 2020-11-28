@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 
+import DayItemText from './DayItemText';
 import { countDaysHoursAmount } from '../utils/generateHoursAmount';
 
 const HoursSummary = ({ days }) => {
@@ -41,28 +42,28 @@ const HoursSummary = ({ days }) => {
   return ( 
     <View style={styles.container}>
       <View style={styles.data}>
-        <Text>
+        <DayItemText>
           Liczba godzin: 
-        </Text>
-        <Text>
+        </DayItemText>
+        <DayItemText>
           {totalHoursString}
-        </Text>
+        </DayItemText>
       </View>
       <View style={styles.data}>
-        <Text>
+        <DayItemText>
           Dni urlopu: 
-        </Text>
-        <Text>
+        </DayItemText>
+        <DayItemText>
           {leaveDays}
-        </Text>
+        </DayItemText>
       </View>
       <View style={styles.data}>
-        <Text>
+        <DayItemText>
           Dni na L4: 
-        </Text>
-        <Text>
+        </DayItemText>
+        <DayItemText>
           {sickLeaveDays}
-        </Text>
+        </DayItemText>
       </View>
     </View>
   );
