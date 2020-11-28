@@ -17,8 +17,6 @@ const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave, isAbou
       return;
     }
 
-    console.log(isAboutSick);
-
     const data = { 
       startHour: '', 
       endHour: '', 
@@ -27,8 +25,6 @@ const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave, isAbou
       dateString,
       currentMonth,
     };
-
-    console.log(data);
 
     const action = id ? editDayByDate : addDay;
 

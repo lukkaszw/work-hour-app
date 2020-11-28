@@ -115,15 +115,21 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
 
   const isLoading = isSending || isSendingFast || isRemoving || isSettingLeave || isSettingSickLeave;
 
+  const isHoliday = dayOfWeek === 1;
+
+  const additionalStyles = isHoliday && styles.holidayItem;
+  const saturdayStyles = dayOfWeek === 7 && styles.saturdayItem;
+  const additionalTextStyles = isHoliday && styles.holidayText;
+
   return ( 
-    <View style={styles.item}>
+    <View style={{...styles.item, ...additionalStyles, ...saturdayStyles}}>
       <View style={styles.dayNr}>
-        <DayItemText>
+        <DayItemText style={additionalTextStyles}>
           {dayNr}.{month}
         </DayItemText>
       </View>
       <View style={styles.dayName}>
-        <DayItemText style={{...styles.dayNameText, ...isHolidayStyles}}>
+        <DayItemText style={{...styles.dayNameText, ...additionalTextStyles}}>
           {DAYS[dayOfWeek]}
         </DayItemText>
       </View>
@@ -138,7 +144,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
               keyboardType="number-pad"
             />
             :
-            <DayItemText style={styles.hourText}>
+            <DayItemText style={{...styles.hourText, ...additionalTextStyles}}>
               {isLeave ? 'UW' : (isSickLeave ? 'L4' : startHour || '-')}
             </DayItemText>
         }
@@ -154,7 +160,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
               keyboardType="number-pad"
             />
             :
-            <DayItemText style={styles.hourText}>
+            <DayItemText style={{...styles.hourText, ...additionalTextStyles}}>
               {isLeave ? 'UW' : (isSickLeave ? 'L4' : endHour || '-')}
             </DayItemText>
         }
@@ -211,6 +217,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#aaa',
     borderBottomWidth: 1,
   },
+  holidayItem: {
+    backgroundColor: '#ffdcdc',
+  },
+  saturdayItem: {
+    backgroundColor: '#ddd',
+  },
   inputStyles: {
     fontSize: 17,
   },
@@ -227,7 +239,7 @@ const styles = StyleSheet.create({
   dayNameText: {
     textAlign: 'center',
   },
-  holiday: {
+  holidayText: {
     color: 'red',
   },
   hours: {
