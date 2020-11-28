@@ -32,9 +32,27 @@ const useDayHourForm = ({
   const [dateString, setDateString] = useState(initialValues && initialValues.dateString ? initialValues.dateString : moment().format('YYYY-MM-DD'));
 
   const [isLeave, setIsLeave] = useState(false);
+  const [isSickLeave, setIsSickLeave] = useState(false);
 
   //handlers
-  const handleToggleLeave = useCallback(() => setIsLeave(prevValue => !prevValue) ,[setIsLeave]);
+  const handleToggleLeave = useCallback(() => {
+    setIsLeave(prevValue => {
+      if(prevValue === false) {
+        setIsSickLeave(false);
+      } 
+      return !prevValue;
+    }); 
+  },[setIsLeave, setIsSickLeave]);
+
+  const handleToggleSickLeave = useCallback(() => {
+    setIsSickLeave(prevValue => {
+      if(prevValue === false) {
+        setIsLeave(false);
+      }
+      return !prevValue;
+    }); 
+  }, [setIsSickLeave, setIsLeave]);
+  
 
   //sendingStatus
   const [isSending, setIsSending] = useState(false);
@@ -45,7 +63,7 @@ const useDayHourForm = ({
 
   //submit action
   const handleSendData = useCallback(() => {
-    if(!isLeave) {
+    if(!isLeave && !isSickLeave) {
       if(startHourField.error || endHourField.error) {
         return;
       }
@@ -70,12 +88,15 @@ const useDayHourForm = ({
     setIsSending(true);
 
     const data = { 
-      startHour: isLeave ? '' : startHourField.value, 
-      endHour: isLeave ? '' : endHourField.value, 
+      startHour: (isLeave || isSickLeave) ? '' : startHourField.value, 
+      endHour: (isLeave || isSickLeave) ? '' : endHourField.value, 
       dateString,
       currentMonth,
       isLeave: isLeave ? 1 : 0,
+      isSickLeave: isSickLeave ? 1 : 0,
     };
+
+    console.log(data);
 
     if(isForEdit) {
       dispatch(editDayByDate(data))
@@ -154,7 +175,7 @@ const useDayHourForm = ({
 
 
 
-  }, [startHourField, endHourField, setEndHourField, setStartHourField, setIsSending, dateString, currentMonth, isLeave, closeEditMode, editDayByDate, addDay, dispatch, isForEdit, isMonthPage]);
+  }, [startHourField, endHourField, setEndHourField, setStartHourField, setIsSending, dateString, currentMonth, isLeave, closeEditMode, editDayByDate, addDay, dispatch, isForEdit, isMonthPage, isSickLeave]);
 
   return {
     startHourField,
@@ -166,7 +187,9 @@ const useDayHourForm = ({
     handleSetDate,
     handleSendData,
     handleToggleLeave,
+    handleToggleSickLeave,
     isLeave,
+    isSickLeave,
   }
 }
 

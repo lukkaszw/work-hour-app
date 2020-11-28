@@ -21,6 +21,7 @@ const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave }) => {
       startHour: '', 
       endHour: '', 
       isLeave: 1,
+      isSickLeave: 0,
       dateString,
       currentMonth,
     };

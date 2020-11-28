@@ -59,6 +59,8 @@ const AddDayScreen = () => {
     handleSendData,
     dateString,
     isLeave,
+    isSickLeave,
+    handleToggleSickLeave,
     handleToggleLeave,
   } = useDayHourForm({
     currentMonth,
@@ -80,8 +82,17 @@ const AddDayScreen = () => {
           value={isLeave}
         />
       </View>
+      <View style={styles.leaveStatus}>
+        <Text style={{ ...styles.text, ...styles.leaveText}}>
+          Zwolnienie lekarskie
+        </Text>
+        <Switch 
+          onValueChange={handleToggleSickLeave}
+          value={isSickLeave}
+        />
+      </View>
       {
-        !isLeave &&
+        (!isLeave && !isSickLeave) &&
           <HourSettings 
             headerText='Podaj godziny pracy:'
             fromValue={startHourField.value}
@@ -132,25 +143,25 @@ const styles = StyleSheet.create({
   },
   leaveStatus: {
     flexDirection: 'row',
-    marginBottom: APP_HEIGHT < 600 ? 20 : 30,
+    width: 240,
+    maxWidth: '90%',
+    marginBottom: APP_HEIGHT < 600 ? 10 : 20,
     alignItems: 'center',
+    justifyContent: 'space-between',
   },  
   dateChangeBtn: {
     marginLeft: 20,
   },
   dateInfo: {
-    marginTop: APP_HEIGHT < 600 ? 30 : 60,
+    marginTop: APP_HEIGHT < 600 ? 20 : 50,
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
     fontSize: APP_HEIGHT < 600 ? 16 : 18,
   },
-  leaveText: {
-    marginRight: 10,
-  },  
   btnWrapper: {
-    marginTop: APP_HEIGHT < 600 ? 30 : 60,
+    marginTop: APP_HEIGHT < 600 ? 20 : 50,
   },
 });
  

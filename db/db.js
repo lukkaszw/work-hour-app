@@ -20,26 +20,28 @@ const createOperation = (query, data = []) => {
   });
 }
 
-export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT, endHour TEXT, isLeave INTEGER, month INTEGER NOT NULL, year INTEGER NOT NULL);');
+export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT, endHour TEXT, isLeave INTEGER, isSickLeave INTEGER, month INTEGER NOT NULL, year INTEGER NOT NULL);');
 
-export const insertDay = ({ dateString, startHour, endHour, isLeave, month, year }) => {
+export const insertDay = ({ dateString, startHour, endHour, isLeave, isSickLeave, month, year }) => {
+  console.log('isSickLeave: ', isSickLeave);
+
   return createOperation(
-    'INSERT INTO days (date, startHour, endHour, isLeave, month, year) VALUES (?, ? , ?, ?, ?, ?);', 
-    [dateString, startHour, endHour, isLeave, month, year],
+    'INSERT INTO days (date, startHour, endHour, isLeave, isSickLeave, month, year) VALUES (?, ?, ?, ?, ?, ?, ?);', 
+    [dateString, startHour, endHour, isLeave,  isSickLeave, month, year],
   );
 }
 
-export const updateDay = ({ id, startHour, endHour, isLeave }) => {
+export const updateDay = ({ id, startHour, endHour, isLeave, isSickLeave }) => {
   return createOperation(
-    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ? WHERE id = ?', 
-    [startHour, endHour, isLeave, id],
+    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ?, isSickLeave = ? WHERE id = ?', 
+    [startHour, endHour, isLeave, isSickLeave, id],
   );
 }
 
-export const updateDayByDate = ({ startHour, endHour, isLeave, dateString }) => {
+export const updateDayByDate = ({ startHour, endHour, isLeave, isSickLeave, dateString }) => {
   return createOperation(
-    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ? WHERE date = ?',
-    [startHour, endHour, isLeave, dateString],
+    'UPDATE days SET startHour = ?, endHour = ?, isLeave = ?, isSickLeave = ? WHERE date = ?',
+    [startHour, endHour, isLeave, isSickLeave, dateString],
   );
 }
 

@@ -22,6 +22,8 @@ const useFastAdd = ({ initialValues, currentMonth }) => {
       startHour: initialValues.startHour, 
       endHour: initialValues.endHour, 
       dateString: initialValues.dateString,
+      isLeave: 0,
+      isSickLeave: 0,
       currentMonth,
     };
 
