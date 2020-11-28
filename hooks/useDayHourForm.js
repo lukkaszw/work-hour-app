@@ -96,8 +96,6 @@ const useDayHourForm = ({
       isSickLeave: isSickLeave ? 1 : 0,
     };
 
-    console.log(data);
-
     if(isForEdit) {
       dispatch(editDayByDate(data))
         .then(() => {

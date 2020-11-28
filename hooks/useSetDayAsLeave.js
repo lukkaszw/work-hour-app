@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 
 import { addDay, editDayByDate } from '../store/api-requests/api-requests';
 
-const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave }) => {
+const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave, isAboutSick }) => {
 
   const dispatch = useDispatch();
 
@@ -17,14 +17,18 @@ const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave }) => {
       return;
     }
 
+    console.log(isAboutSick);
+
     const data = { 
       startHour: '', 
       endHour: '', 
-      isLeave: 1,
-      isSickLeave: 0,
+      isLeave: isAboutSick ? 0 : 1,
+      isSickLeave: isAboutSick ? 1 : 0,
       dateString,
       currentMonth,
     };
+
+    console.log(data);
 
     const action = id ? editDayByDate : addDay;
 
@@ -44,7 +48,7 @@ const useSetDayAsLeave = ({ dateString, currentMonth, id, isAlreadyLeave }) => {
         );
       });
 
-  }, [compExists, setIsSettingLeave, id, dateString, currentMonth, isAlreadyLeave]);
+  }, [compExists, setIsSettingLeave, id, dateString, currentMonth, isAlreadyLeave, isAboutSick]);
 
   return {
     isSettingLeave,

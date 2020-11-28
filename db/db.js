@@ -23,7 +23,6 @@ const createOperation = (query, data = []) => {
 export const init = () => createOperation('CREATE TABLE IF NOT EXISTS days (id INTEGER PRIMARY KEY NOT NULL, date STRING NOT NULL UNIQUE, startHour TEXT, endHour TEXT, isLeave INTEGER, isSickLeave INTEGER, month INTEGER NOT NULL, year INTEGER NOT NULL);');
 
 export const insertDay = ({ dateString, startHour, endHour, isLeave, isSickLeave, month, year }) => {
-  console.log('isSickLeave: ', isSickLeave);
 
   return createOperation(
     'INSERT INTO days (date, startHour, endHour, isLeave, isSickLeave, month, year) VALUES (?, ?, ?, ?, ?, ?, ?);', 

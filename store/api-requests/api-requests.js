@@ -19,7 +19,6 @@ export const getDays = ({ startDate, endDate, month }) => {
 }
 
 export const addDay = ({ startHour, endHour, dateString, isLeave, isSickLeave, currentMonth }) => {
-  console.log(isSickLeave);
 
   const date = moment(dateString);
   const month = date.month() + 1;
@@ -47,6 +46,7 @@ export const addDay = ({ startHour, endHour, dateString, isLeave, isSickLeave, c
 }
 
 export const editDayByDate = ({  startHour, endHour, isLeave, isSickLeave, dateString, currentMonth }) => {
+
   return (dispatch) => {
     return updateDayByDate({ startHour, endHour, isLeave, isSickLeave, dateString })
       .then(result => {

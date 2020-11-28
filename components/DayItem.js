@@ -98,10 +98,22 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
     isAlreadyLeave: !!isLeave,
     dateString: initialValues.dateString,
     currentMonth: `${month}.${year}`,
+  });
+
+  
+  const {
+    isSettingLeave: isSettingSickLeave,
+    handleSetLeave: handleSetSickLeave,
+  } = useSetDayAsLeave({
+    id,
+    isAlreadyLeave: !!isSickLeave,
+    dateString: initialValues.dateString,
+    currentMonth: `${month}.${year}`,
+    isAboutSick: true,
   })
 
 
-  const isLoading = isSending || isSendingFast || isRemoving || isSettingLeave;
+  const isLoading = isSending || isSendingFast || isRemoving || isSettingLeave || isSettingSickLeave;
 
   return ( 
     <View style={styles.item}>
@@ -162,7 +174,8 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
           <DayItemActions 
             id={id}
             isLoading={isLoading} 
-            isLeave={isLeave} 
+            isLeave={isLeave}
+            isSickLeave={isSickLeave}
             isEditing={isEditing}
             areInitialExists={areInitialExists}
             onCancelEditMode={handleCancelEditMode} 
@@ -171,6 +184,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
             onFastAdd={handleFastAdd} 
             onRemoveDaysHours={handleRemoveDaysHours} 
             onSetLeave={handleSetLeave}
+            onSetSickLeave={handleSetSickLeave}
           />
       }
     </View>
