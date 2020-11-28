@@ -28,7 +28,7 @@ const HoursSummary = ({ days }) => {
       }
     },{ hoursAmount: 0, leaveDays: 0, sickLeaveDays: 0 });
 
-    const fullHours = Math.ceil(hoursAmount);
+    const fullHours = Math.floor(hoursAmount);
     const aloneMinutes = Math.ceil((hoursAmount - fullHours) * 60);
 
     const totalHoursString = `${fullHours} godz., ${aloneMinutes} min.`;
