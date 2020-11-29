@@ -12,6 +12,7 @@ const useDayHourForm = ({
   isForEdit,
   isMonthPage,
   closeEditMode,
+  closeOptions,
 }) => {
 
   const dispatch = useDispatch();
@@ -102,6 +103,7 @@ const useDayHourForm = ({
           if(compExists) {
             setIsSending(false);
             closeEditMode();
+            closeOptions();
           }
         })
         .catch((error) => {
@@ -117,6 +119,7 @@ const useDayHourForm = ({
           setIsSending(false);
           if(isMonthPage) {
             closeEditMode();
+            closeOptions();
           }
         }
 
@@ -173,7 +176,7 @@ const useDayHourForm = ({
 
 
 
-  }, [startHourField, endHourField, setEndHourField, setStartHourField, setIsSending, dateString, currentMonth, isLeave, closeEditMode, editDayByDate, addDay, dispatch, isForEdit, isMonthPage, isSickLeave]);
+  }, [startHourField, endHourField, setEndHourField, setStartHourField, setIsSending, dateString, currentMonth, isLeave, closeEditMode, editDayByDate, addDay, dispatch, isForEdit, isMonthPage, isSickLeave, closeOptions]);
 
   return {
     startHourField,

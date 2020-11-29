@@ -31,8 +31,6 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
     return !prevValue
   }), [setAreOptionsActive, setIsEditing]);
 
-  const isHolidayStyles = dayOfWeek === 1 ? styles.holiday : null;
-
   const initialValues = useMemo(() => {
 
     const values = {
@@ -72,6 +70,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
     isMonthPage: true,
     currentMonth: `${month}.${year}`,
     closeEditMode: handleCancelEditMode,
+    closeOptions: handleToggleOptions,
   });
 
   const {
@@ -81,12 +80,13 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
   } = useFastAdd({
     initialValues,
     currentMonth: `${month}.${year}`,
+    closeOptions: handleToggleOptions,
   });
 
   const {
     isRemoving,
     handleRemoveDaysHours,
-  } = useRemoveDaysHours(id);
+  } = useRemoveDaysHours({ dayId: id, closeOptions: handleToggleOptions });
 
   const {
     isSettingLeave,
@@ -96,6 +96,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
     isAlreadyLeave: !!isLeave,
     dateString: initialValues.dateString,
     currentMonth: `${month}.${year}`,
+    closeOptions: handleToggleOptions,
   });
 
   
@@ -108,6 +109,7 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
     dateString: initialValues.dateString,
     currentMonth: `${month}.${year}`,
     isAboutSick: true,
+    closeOptions: handleToggleOptions,
   })
 
 

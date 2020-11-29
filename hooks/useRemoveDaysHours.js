@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { removeDay } from '../store/api-requests/api-requests';
 
-const useRemoveDaysHours = (dayId) => {
+const useRemoveDaysHours = ({ dayId, closeOptions }) => {
 
   const dispatch = useDispatch();
 
@@ -23,6 +23,7 @@ const useRemoveDaysHours = (dayId) => {
       .then(() => {
         if(compExists) {
           setIsRemoving(false);
+          closeOptions();
         }
       })
       .catch(() => {
@@ -35,7 +36,7 @@ const useRemoveDaysHours = (dayId) => {
         );
       });
 
-  }, [dayId, dispatch, setIsRemoving]);
+  }, [dayId, dispatch, setIsRemoving, closeOptions]);
 
   return {
     isRemoving,

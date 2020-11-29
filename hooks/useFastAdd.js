@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 
 import { addDay } from '../store/api-requests/api-requests';
 
-const useFastAdd = ({ initialValues, currentMonth }) => {
+const useFastAdd = ({ initialValues, currentMonth, closeOptions }) => {
 
   const dispatch = useDispatch();
 
@@ -33,6 +33,7 @@ const useFastAdd = ({ initialValues, currentMonth }) => {
       .then(() => {
         if(compExists) {
           setIsSendingFast(false);
+          closeOptions();
         }
       })
       .catch((error) => {
@@ -44,7 +45,7 @@ const useFastAdd = ({ initialValues, currentMonth }) => {
       });
 
 
-  }, [initialValues, initialsNotExists, compExists, setIsSendingFast]);
+  }, [initialValues, initialsNotExists, compExists, setIsSendingFast, closeOptions]);
 
 
   return {
