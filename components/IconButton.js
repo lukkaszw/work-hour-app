@@ -33,7 +33,6 @@ IconButton.defaultProps = {
 const styles = StyleSheet.create({
   iconWrapper: {
     paddingHorizontal: 12,
-    backgroundColor: 'green',
     alignItems: 'center',
   }
 });
