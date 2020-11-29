@@ -16,9 +16,7 @@ import useFastAdd from '../hooks/useFastAdd';
 import useRemoveDaysHours from '../hooks/useRemoveDaysHours';
 import useSetDayAsLeave from '../hooks/useSetDayAsLeave';
 
-import { APP_WIDTH } from '../constants/sizes';
-
-const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, startHour, endHour }) => {
+const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, startHour, endHour, isHoliday }) => {
 
   const [areOptionsActive, setAreOptionsActive] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -115,10 +113,8 @@ const DayItem = ({ id, dayNr, month, year, dayOfWeek, isLeave, isSickLeave, star
 
   const isLoading = isSending || isSendingFast || isRemoving || isSettingLeave || isSettingSickLeave;
 
-  const isHoliday = dayOfWeek === 1;
-
   const additionalStyles = isHoliday && styles.holidayItem;
-  const saturdayStyles = dayOfWeek === 7 && styles.saturdayItem;
+  const saturdayStyles = (!isHoliday && dayOfWeek === 7) && styles.saturdayItem;
   const additionalTextStyles = isHoliday && styles.holidayText;
 
   return ( 
@@ -207,6 +203,7 @@ DayItem.propTypes = {
   dayOfWeek: PropTypes.number.isRequired,
   startHour: PropTypes.string,
   endHour: PropTypes.string,
+  isHoliday: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

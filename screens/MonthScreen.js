@@ -12,6 +12,7 @@ import Loader from '../components/Loader';
 import moment from 'moment';
 
 import { getDays, getInitialSettings } from '../store/api-requests/api-requests';
+import checkMobileHolidays from '../utils/checkMobileHolidays';
 import MONTHS from '../constants/months';
 
 const MonthScreen = ({ navigation, month, year }) => {
@@ -83,6 +84,8 @@ const MonthScreen = ({ navigation, month, year }) => {
     return [...days];
   }, [fetchedDays, daysInMonth]);
 
+  const mobileHolidaysIn_PL = useMemo(() => checkMobileHolidays(yearNr), [yearNr]);
+
   if(isLoading) {
     return (
       <Loader />
@@ -93,6 +96,7 @@ const MonthScreen = ({ navigation, month, year }) => {
     <ScrollView>
       <DaysList 
         days={generatedDays}
+        mobileHolidays={mobileHolidaysIn_PL}
       />
       <HoursSummary 
         days={generatedDays}
