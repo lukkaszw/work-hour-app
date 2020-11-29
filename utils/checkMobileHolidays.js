@@ -13,6 +13,7 @@ const checkMobileHolidays_PL = (year) => {
   const e = (2*b + 4*c + 6*d + B) % 7;
 
   let easterHoliday;
+  const mobileHolidays = [];
 
   if(d === 29 && e === 6) {
     easterHoliday = moment(`${year}-04-19`);
@@ -23,10 +24,10 @@ const checkMobileHolidays_PL = (year) => {
     easterHoliday = moment(`${year}-03-22`).add(dayFrom22March, 'd');
    }
 
-   const mondayAfterEaster = easterHoliday.add(1, 'd');
-   const divineBodyHoliday = easterHoliday.add(60, 'd');
+   const mondayAfterEaster = moment(easterHoliday).add(1, 'd');
+   const divineBodyHoliday = moment(easterHoliday).add(60, 'd');
 
-   const mobileHolidays = [];
+ 
    mobileHolidays.push(getDayMonthFromDate(easterHoliday));
    mobileHolidays.push(getDayMonthFromDate(mondayAfterEaster));
    mobileHolidays.push(getDayMonthFromDate(divineBodyHoliday));

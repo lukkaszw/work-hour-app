@@ -9,7 +9,6 @@ const DaysList = ({ days, mobileHolidays }) => {
 
   const holidays = CONSTANT_HOLIDAYS.concat(mobileHolidays);
 
-
   return ( 
     <View>
       {

@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   optionsTrigger: {
-    width: 50,
+    width: 60,
     justifyContent: 'center',
   },  
   icon: {
