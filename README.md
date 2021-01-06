@@ -1,4 +1,4 @@
-# Eyelashes app
+# Godziny pracy app
 
 This is my first project in React Native. I used expo environment.<br />
 This app is only optimalized for android systems.<br />
